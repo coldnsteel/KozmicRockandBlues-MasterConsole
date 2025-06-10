@@ -10,20 +10,17 @@
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             color: white; font-family: 'Arial', sans-serif; overflow-x: hidden;
         }
-        
         .header {
             text-align: center; padding: 20px;
             background: rgba(255, 107, 157, 0.1);
             border-bottom: 2px solid #ff6b9d;
         }
-        
         .studio-container {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 20px; padding: 20px;
             min-height: 80vh;
         }
-        
         .module {
             background: rgba(255, 107, 157, 0.15);
             border: 2px solid #ff6b9d;
@@ -32,20 +29,17 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 8px 32px rgba(255, 107, 157, 0.2);
         }
-        
         .module h2 {
             color: #ff6b9d;
             margin-bottom: 15px;
             text-align: center;
             text-shadow: 0 0 10px rgba(255, 107, 157, 0.5);
         }
-        
         .input-section {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
-        
         .btn {
             background: linear-gradient(45deg, #ff6b9d, #9b59b6);
             border: none;
@@ -58,24 +52,19 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
         }
-        
         .btn:active { transform: translateY(0); }
-        
         .btn.recording {
             background: linear-gradient(45deg, #ff4757, #ff6b9d);
             animation: pulse 1s infinite;
         }
-        
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
-        
         select, input {
             background: rgba(44, 44, 78, 0.8);
             color: white;
@@ -84,17 +73,18 @@
             border-radius: 10px;
             font-size: 14px;
         }
-        
         .guitar-visual {
             width: 100%;
-            height: 200px;
-            background: linear-gradient(90deg, #8b4513 0%, #daa520 100%);
+            height: 120px;
+            background: linear-gradient(90deg, #1a1a2e, #0f3460);
             border-radius: 10px;
             position: relative;
             margin: 15px 0;
             overflow: hidden;
         }
-        
+        #noVideoOverlay { z-index: 1; }
+        .string { z-index: 3; }
+        #videoFeed, #videoOverlay { z-index: 2; }
         .string {
             position: absolute;
             width: 100%;
@@ -102,24 +92,20 @@
             background: #c0c0c0;
             box-shadow: 0 0 5px rgba(192, 192, 192, 0.5);
         }
-        
-        .string:nth-child(1) { top: 20px; }
-        .string:nth-child(2) { top: 50px; }
-        .string:nth-child(3) { top: 80px; }
-        .string:nth-child(4) { top: 110px; }
-        .string:nth-child(5) { top: 140px; }
-        .string:nth-child(6) { top: 170px; }
-        
+        .string:nth-child(1) { top: 10px; }
+        .string:nth-child(2) { top: 30px; }
+        .string:nth-child(3) { top: 50px; }
+        .string:nth-child(4) { top: 70px; }
+        .string:nth-child(5) { top: 90px; }
+        .string:nth-child(6) { top: 110px; }
         .string.vibrating {
             animation: vibrate 0.1s infinite;
         }
-        
         @keyframes vibrate {
             0%, 100% { transform: translateY(0); }
             25% { transform: translateY(-1px); }
             75% { transform: translateY(1px); }
         }
-        
         .volume-meter {
             width: 100%;
             height: 30px;
@@ -129,21 +115,18 @@
             position: relative;
             margin: 10px 0;
         }
-        
         .volume-bar {
             height: 100%;
             background: linear-gradient(90deg, #00ff00, #ffff00, #ff0000);
             width: 0%;
             transition: width 0.1s ease;
         }
-        
         .effects-rack {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             margin-top: 15px;
         }
-        
         .effect-knob {
             width: 60px;
             height: 60px;
@@ -153,7 +136,6 @@
             cursor: pointer;
             margin: 0 auto;
         }
-        
         .knob-indicator {
             position: absolute;
             top: 5px;
@@ -164,14 +146,12 @@
             transform: translateX(-50%);
             border-radius: 2px;
         }
-        
         .rhythm-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 10px;
             margin-top: 15px;
         }
-        
         .beat-pad {
             aspect-ratio: 1;
             background: rgba(255, 107, 157, 0.3);
@@ -184,17 +164,14 @@
             font-weight: bold;
             transition: all 0.2s ease;
         }
-        
         .beat-pad:hover {
             background: rgba(255, 107, 157, 0.6);
             transform: scale(1.05);
         }
-        
         .beat-pad.active {
             background: #ff6b9d;
             box-shadow: 0 0 20px rgba(255, 107, 157, 0.8);
         }
-        
         .creature {
             width: 80px;
             height: 80px;
@@ -204,16 +181,13 @@
             position: relative;
             transition: all 0.3s ease;
         }
-        
         .creature.pulse {
             animation: creature-pulse 0.5s ease;
         }
-        
         @keyframes creature-pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.2); filter: brightness(1.5); }
         }
-        
         .master-controls {
             grid-column: 1 / -1;
             display: flex;
@@ -224,7 +198,6 @@
             border-radius: 15px;
             margin-top: 20px;
         }
-        
         .status-display {
             background: rgba(0, 0, 0, 0.5);
             padding: 10px;
@@ -234,16 +207,30 @@
             font-size: 12px;
             min-height: 60px;
         }
-        
         .motown-mode {
             background: linear-gradient(45deg, #d4af37, #ffd700);
             color: #000;
             animation: shimmer 2s infinite;
         }
-        
         @keyframes shimmer {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(1.2); }
+            0% { background-position: 0%; }
+            100% { background-position: 400%; }
+        }
+        @keyframes psychedelic-shift {
+            0% { filter: hue-rotate(120deg) saturate(2) contrast(1.3); }
+            25% { filter: hue-rotate(180deg) saturate(1.8) contrast(1.1); }
+            50% { filter: hue-rotate(240deg) saturate(2.2) contrast(1.4); }
+            75% { filter: hue-rotate(300deg) saturate(1.6) contrast(1.2); }
+            100% { filter: hue-rotate(120deg) saturate(2) contrast(1.3); }
+        }
+        @keyframes psychedelic-overlay {
+            0% { background: radial-gradient(circle, rgba(255,107,157,0.3), rgba(52,152,219,0.3)); }
+            50% { background: radial-gradient(circle, rgba(147,112,219,0.3), rgba(255,182,193,0.3)); }
+            100% { background: radial-gradient(circle, rgba(255,107,157,0.3), rgba(52,152,219,0.3)); }
+        }
+        #videoOverlay.psychedelic {
+            animation: psychedelic-overlay 5s infinite;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -257,12 +244,19 @@
     <div class="studio-container">
         <!-- Guitar Input Module -->
         <div class="module">
-            <h2>🎸 Guitar Input</h2>
+            <h2>🎸 Guitar & Video Input</h2>
             <div class="input-section">
                 <button class="btn" id="connectGuitar" onclick="connectGuitar()">Connect Guitar</button>
-                <button class="btn" id="recordBtn" onclick="toggleRecording()">Record</button>
+                <button class="btn" id="speechBtn" onclick="toggleSpeechControl()">Speech Control 🎤</button>
+                <button class="btn" id="recordAudioBtn" onclick="toggleAudioRecording()">Record Audio 🎙</button>
+                <button class="btn" id="recordVideoBtn" style="display: none;" onclick="toggleVideoRecording()">Record Video 🎥</button>
                 
                 <div class="guitar-visual" id="guitarVisual">
+                    <video id="videoFeed" autoplay muted style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px; display: none;"></video>
+                    <canvas id="videoOverlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
+                    <div id="noVideoOverlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: #fff; font-size: 14px;">
+                        🎸 Guitar Visualization Ready<br><small>Connect webcam for video</small>
+                    </div>
                     <div class="string"></div>
                     <div class="string"></div>
                     <div class="string"></div>
@@ -279,15 +273,31 @@
                 <input type="range" id="inputGain" min="0" max="100" value="50">
                 
                 <div class="status-display" id="inputStatus">
-                    Ready for guitar input...
+                    Ready for your 2 guitars...<br>
                     Click "Connect Guitar" to start!
                 </div>
             </div>
         </div>
         
+        <!-- Genre Selector & Full Effects Rack -->
+        <div class="module" style="grid-column: 1 / -1;">
+            <h2>🌟 Cosmic Genre Studio</h2>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px;">
+                <button class="btn motown-mode" onclick="activateMotownMode()">🎵 Motown</button>
+                <button class="btn" onclick="applyGenreProfile('blues')" style="background: linear-gradient(45deg, #1e3c72, #2a5298);">🎸 Blues</button>
+                <button class="btn" onclick="applyGenreProfile('jazz')" style="background: linear-gradient(45deg, #8b4513, #daa520);">🎷 Jazz</button>
+                <button class="btn" onclick="applyGenreProfile('rock')" style="background: linear-gradient(45deg, #ff4500, #ff6347);">🤘 Rock</button>
+                <button class="btn" onclick="applyGenreProfile('funk')" style="background: linear-gradient(45deg, #800080, #ff1493);">🎺 Funk</button>
+                <button class="btn" onclick="applyGenreProfile('psychedelic')" style="background: linear-gradient(45deg, #ff69b4, #9370db);">🌈 Psychedelic</button>
+                <button class="btn" onclick="applyGenreProfile('caribbean')" style="background: linear-gradient(45deg, #228b22, #32cd32);">🌴 Caribbean</button>
+                <button class="btn" onclick="applyGenreProfile('salsa')" style="background: linear-gradient(45deg, #dc143c, #ff69b4);">💃 Salsa</button>
+                <button class="btn" onclick="applyGenreProfile('bossa_nova')" style="background: linear-gradient(45deg, #ffd700, #ffa500);">🇧🇷 Bossa Nova</button>
+            </div>
+        </div>
+        
         <!-- Effects Rack -->
         <div class="module">
-            <h2>🌟 Motown Effects</h2>
+            <h2>🌟 Full Effects Rack</h2>
             <div class="effects-rack">
                 <div style="text-align: center;">
                     <label>Slide</label>
@@ -302,27 +312,57 @@
                     </div>
                 </div>
                 <div style="text-align: center;">
+                    <label>Drive</label>
+                    <div class="effect-knob" data-effect="drive">
+                        <div class="knob-indicator"></div>
+                    </div>
+                </div>
+                <div style="text-align: center;">
                     <label>Reverb</label>
                     <div class="effect-knob" data-effect="reverb">
                         <div class="knob-indicator"></div>
                     </div>
                 </div>
                 <div style="text-align: center;">
-                    <label>Drive</label>
-                    <div class="effect-knob" data-effect="drive">
+                    <label>Delay</label>
+                    <div class="effect-knob" data-effect="delay">
+                        <div class="knob-indicator"></div>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <label>Chorus</label>
+                    <div class="effect-knob" data-effect="chorus">
+                        <div class="knob-indicator"></div>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <label>Flanger</label>
+                    <div class="effect-knob" data-effect="flanger">
+                        <div class="knob-indicator"></div>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <label>Phaser</label>
+                    <div class="effect-knob" data-effect="phaser">
+                        <div class="knob-indicator"></div>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <label>Wah</label>
+                    <div class="effect-knob" data-effect="wah">
                         <div class="knob-indicator"></div>
                     </div>
                 </div>
             </div>
             
-            <button class="btn motown-mode" onclick="activateMotownMode()">
-                🎵 Activate Motown Mode
-            </button>
+            <div style="margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <button class="btn" onclick="killAllEffects()">🔇 Kill All Effects</button>
+                <button class="btn" onclick="activateRandomMode()">🎲 Random Mode</button>
+            </div>
             
             <div class="status-display" id="effectsStatus">
-                Effects: Clean
-                Motown Mode: OFF
-                Ready to slide and boogie!
+                Effects: Clean<br>
+                Ready to rock any genre!
             </div>
         </div>
         
@@ -384,71 +424,820 @@
     </div>
 
     <script>
-        // Audio Context and Variables
-        let audioContext;
-        let guitarStream;
-        let isRecording = false;
-        let recordedChunks = [];
-        let analyzer;
-        let dataArray;
-        let effectsChain = null;
-        let mediaRecorder = null;
-        let currentEffects = {
-            slide: 0,
-            boogie: 0,
-            reverb: 0,
-            drive: 0
+        // Variables
+        var audioContext = null;
+        var guitarStream = null;
+        var isRecording = false;
+        var recordedChunks = [];
+        var analyzer = null;
+        var dataArray = null;
+        var effectsChain = null;
+        var mediaRecorder = null;
+        var currentEffects = {
+            slide: 0, boogie: 0, reverb: 0, drive: 0,
+            delay: 0, chorus: 0, flanger: 0, phaser: 0, wah: 0
         };
-        
-        // SHADOW CODE PROTOCOL: Future Genre Expansions
-        const genreProfiles = {
-            motown: { slide: 75, boogie: 80, reverb: 60, drive: 65 },
-            blues: { slide: 90, boogie: 40, reverb: 30, drive: 85 },
-            jazz: { slide: 20, boogie: 60, reverb: 80, drive: 25 },
-            rock: { slide: 30, boogie: 70, reverb: 40, drive: 90 },
-            funk: { slide: 50, boogie: 95, reverb: 50, drive: 60 },
-            psychedelic: { slide: 85, boogie: 60, reverb: 95, drive: 70 }
+        var videoStream = null;
+        var isVideoRecording = false;
+        var videoRecorder = null;
+        var videoChunks = [];
+        var currentGenre = 'none';
+        var speechRecognition = null;
+        var isSpeechActive = false;
+        var tvPower = false;
+        var tvContrast = 1;
+        var tvBrightness = 1;
+
+        // Genre Profiles
+        var genreProfiles = {
+            motown: { slide: 75, boogie: 80, reverb: 60, drive: 65, delay: 40, chorus: 50, flanger: 30, phaser: 25, wah: 60 },
+            blues: { slide: 90, boogie: 40, reverb: 30, drive: 85, delay: 60, chorus: 20, flanger: 10, phaser: 15, wah: 80 },
+            jazz: { slide: 20, boogie: 60, reverb: 80, drive: 25, delay: 70, chorus: 40, flanger: 15, phaser: 35, wah: 45 },
+            rock: { slide: 30, boogie: 70, reverb: 40, drive: 90, delay: 50, chorus: 60, flanger: 45, phaser: 40, wah: 70 },
+            funk: { slide: 50, boogie: 95, reverb: 50, drive: 60, delay: 35, chorus: 30, flanger: 60, phaser: 70, wah: 95 },
+            psychedelic: { slide: 85, boogie: 60, reverb: 95, drive: 70, delay: 90, chorus: 85, flanger: 80, phaser: 90, wah: 75 },
+            caribbean: { slide: 60, boogie: 85, reverb: 70, drive: 40, delay: 65, chorus: 75, flanger: 20, phaser: 30, wah: 50 },
+            salsa: { slide: 45, boogie: 90, reverb: 55, drive: 50, delay: 45, chorus: 55, flanger: 35, phaser: 40, wah: 60 },
+            bossa_nova: { slide: 70, boogie: 50, reverb: 85, drive: 30, delay: 80, chorus: 70, flanger: 25, phaser: 45, wah: 35 }
         };
-        
-        // Shadow functions for future activation (not called yet)
-        const shadowGenreFunctions = {
-            activateBluesMode: () => applyGenreProfile('blues'),
-            activateJazzMode: () => applyGenreProfile('jazz'),
-            activateRockMode: () => applyGenreProfile('rock'),
-            activateFunkMode: () => applyGenreProfile('funk'),
-            activatePsychedelicMode: () => applyGenreProfile('psychedelic')
-        };
-        
+
         // Guitar String Frequencies
-        const stringFrequencies = {
+        var stringFrequencies = {
             'E2': 82.41, 'A2': 110, 'D3': 146.83, 
             'G3': 196, 'B3': 246.94, 'E4': 329.63
         };
-        
+
         // Rhythm Patterns
-        const rhythmPatterns = {
+        var rhythmPatterns = {
             '2_eighths': [1, 0.5, 1, 0.5],
-            '3_triplet': [1, 1, 1].map(n => n * 0.67),
+            '3_triplet': [1, 1, 1],
             'syncopated': [1, 0, 0.5, 1],
             'boogie': [1, 0, 1, 0.5, 0, 1, 0.5, 0]
         };
-        
-        // Initialize Audio Context
-        function initAudio() {
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            if (audioContext.state === 'suspended') {
-                audioContext.resume();
+
+        // Safe DOM Access
+        function safeGetElement(id) {
+            try {
+                return document.getElementById(id);
+            } catch (e) {
+                console.warn('Element not found: ' + id);
+                return null;
             }
         }
-        
-        // Connect Guitar Input with REAL Effects Processing
-        async function connectGuitar() {
+
+        // Safe Function Call
+        function safeCall(func) {
+            try {
+                if (typeof func === 'function') {
+                    func();
+                }
+            } catch (e) {
+                console.warn('Function call error: ' + e.message);
+            }
+        }
+
+        // Initialize Audio Context
+        function initAudio() {
+            try {
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+                console.log('🎵 Audio context initialized');
+            } catch (e) {
+                console.error('Audio context error: ' + e.message);
+                var status = safeGetElement('inputStatus');
+                if (status) status.innerHTML += '<br>❌ Audio context failed';
+            }
+        }
+
+        // Speech Recognition
+        function initSpeechRecognition() {
+            try {
+                if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    speechRecognition = new SpeechRecognition();
+                    speechRecognition.continuous = true;
+                    speechRecognition.interimResults = false;
+                    speechRecognition.lang = 'en-US';
+                    
+                    speechRecognition.onresult = function(event) {
+                        var last = event.results.length - 1;
+                        var command = event.results[last][0].transcript.toLowerCase().trim();
+                        processSpeechCommand(command);
+                    };
+                    
+                    speechRecognition.onerror = function(event) {
+                        console.error('Speech recognition error: ' + event.error);
+                        var inputStatus = safeGetElement('inputStatus');
+                        if (inputStatus) {
+                            inputStatus.innerHTML += '<br>🎤 Speech error: ' + event.error;
+                        }
+                    };
+                    return true;
+                }
+                return false;
+            } catch (e) {
+                console.warn('Speech recognition init error: ' + e.message);
+                return false;
+            }
+        }
+
+        function processSpeechCommand(command) {
+            try {
+                var inputStatus = safeGetElement('inputStatus');
+                if (inputStatus) {
+                    inputStatus.innerHTML += '<br>🎤 Heard: ' + command;
+                }
+                
+                if (command.indexOf('motown') !== -1) {
+                    applyGenreProfile('motown');
+                } else if (command.indexOf('blues') !== -1) {
+                    applyGenreProfile('blues');
+                } else if (command.indexOf('jazz') !== -1) {
+                    applyGenreProfile('jazz');
+                } else if (command.indexOf('rock') !== -1) {
+                    applyGenreProfile('rock');
+                } else if (command.indexOf('funk') !== -1) {
+                    applyGenreProfile('funk');
+                } else if (command.indexOf('psychedelic') !== -1) {
+                    applyGenreProfile('psychedelic');
+                } else if (command.indexOf('caribbean') !== -1) {
+                    applyGenreProfile('caribbean');
+                } else if (command.indexOf('salsa') !== -1) {
+                    applyGenreProfile('salsa');
+                } else if (command.indexOf('bossa nova') !== -1) {
+                    applyGenreProfile('bossa_nova');
+                } else if (command.indexOf('record video') !== -1) {
+                    toggleVideoRecording();
+                } else if (command.indexOf('record audio') !== -1) {
+                    toggleAudioRecording();
+                } else if (command.indexOf('stop recording') !== -1) {
+                    if (isRecording) toggleAudioRecording();
+                    if (isVideoRecording) stopVideoRecording();
+                } else if (command.indexOf('random mode') !== -1) {
+                    activateRandomMode();
+                } else if (command.indexOf('kill effects') !== -1 || command.indexOf('clean') !== -1) {
+                    killAllEffects();
+                } else if (command.indexOf('save session') !== -1) {
+                    saveSession();
+                } else if (command.indexOf('jam session') !== -1) {
+                    startJamSession();
+                } else {
+                    if (inputStatus) {
+                        inputStatus.innerHTML += '<br>🤔 Try: funk, record video, random mode';
+                    }
+                }
+                
+                safeCall(pulseCreature);
+            } catch (e) {
+                console.warn('Speech command error: ' + e.message);
+            }
+        }
+
+        function toggleSpeechControl() {
+            try {
+                if (!isSpeechActive) {
+                    if (initSpeechRecognition()) {
+                        speechRecognition.start();
+                        isSpeechActive = true;
+                        
+                        var speechBtn = safeGetElement('speechBtn');
+                        if (speechBtn) {
+                            speechBtn.textContent = 'Stop Speech 🔇';
+                            speechBtn.style.background = 'linear-gradient(45deg, #e74c3c, #c0392b)';
+                        }
+                        
+                        var inputStatus = safeGetElement('inputStatus');
+                        if (inputStatus) {
+                            inputStatus.innerHTML += '<br>🎤 Speech control activated! Say "funk", "record", "random mode"';
+                        }
+                    } else {
+                        alert('Speech recognition not supported. Try Chrome!');
+                    }
+                } else {
+                    if (speechRecognition) {
+                        speechRecognition.stop();
+                    }
+                    isSpeechActive = false;
+                    
+                    var speechBtn = safeGetElement('speechBtn');
+                    if (speechBtn) {
+                        speechBtn.textContent = 'Speech Control 🎤';
+                        speechBtn.style.background = '';
+                    }
+                    
+                    var inputStatus = safeGetElement('inputStatus');
+                    if (inputStatus) {
+                        inputStatus.innerHTML += '<br>🔇 Speech control stopped';
+                    }
+                }
+            } catch (e) {
+                console.warn('Toggle speech error: ' + e.message);
+            }
+        }
+
+        // Video Feed
+        function initVideoFeed() {
+            try {
+                var videoElement = safeGetElement('videoFeed');
+                var noVideoOverlay = safeGetElement('noVideoOverlay');
+                var recordVideoBtn = safeGetElement('recordVideoBtn');
+                
+                if (!videoElement || !noVideoOverlay || !recordVideoBtn) {
+                    console.warn('Video UI elements missing');
+                    return;
+                }
+                
+                navigator.mediaDevices.getUserMedia({
+                    video: { width: 640, height: 480 },
+                    audio: false
+                }).then(function(stream) {
+                    videoStream = stream;
+                    videoElement.srcObject = stream;
+                    videoElement.style.display = 'block';
+                    noVideoOverlay.style.display = 'none';
+                    recordVideoBtn.style.display = 'inline-block';
+                    
+                    var inputStatus = safeGetElement('inputStatus');
+                    if (inputStatus) {
+                        inputStatus.innerHTML += '<br>📷 Video feed active!';
+                    }
+                }).catch(function(error) {
+                    console.error('Webcam error: ' + error.message);
+                    noVideoOverlay.innerHTML = '🎸 Audio Only Mode<br><small>Video optional</small>';
+                    var inputStatus = safeGetElement('inputStatus');
+                    if (inputStatus) {
+                        inputStatus.innerHTML += '<br>📷 Video unavailable';
+                    }
+                });
+            } catch (e) {
+                console.warn('Video feed error: ' + e.message);
+            }
+        }
+
+        function toggleVideoRecording() {
+            try {
+                if (!isVideoRecording) {
+                    startVideoRecording();
+                } else {
+                    stopVideoRecording();
+                }
+            } catch (e) {
+                console.warn('Toggle video recording error: ' + e.message);
+            }
+        }
+
+        function startVideoRecording() {
+            try {
+                if (!guitarStream || !videoStream) {
+                    alert('Connect guitar and webcam first!');
+                    return;
+                }
+                
+                var combinedStream = new MediaStream();
+                var videoTracks = videoStream.getVideoTracks();
+                var audioTracks = guitarStream.getAudioTracks();
+                for (var i = 0; i < videoTracks.length; i++) {
+                    combinedStream.addTrack(videoTracks[i]);
+                }
+                for (var i = 0; i < audioTracks.length; i++) {
+                    combinedStream.addTrack(audioTracks[i]);
+                }
+                
+                videoRecorder = new MediaRecorder(combinedStream, {
+                    mimeType: 'video/webm;codecs=vp8,opus'
+                });
+                videoChunks = [];
+                
+                videoRecorder.ondataavailable = function(event) {
+                    if (event.data.size > 0) {
+                        videoChunks.push(event.data);
+                    }
+                };
+                
+                videoRecorder.onstop = function() {
+                    var blob = new Blob(videoChunks, { type: 'video/webm' });
+                    var url = URL.createObjectURL(blob);
+                    var timestamp = new Date().toLocaleTimeString();
+                    
+                    var inputStatus = safeGetElement('inputStatus');
+                    if (inputStatus) {
+                        inputStatus.innerHTML += '<br>🎥 Video Recording ' + timestamp + ' (' + currentGenre + ' mode):<br><video controls src="' + url + '" style="width: 100%; margin: 5px 0;"></video><br><a href="' + url + '" download="cosmic-jam-' + timestamp + '.webm">💾 Download</a>';
+                    }
+                };
+                
+                videoRecorder.start(1000);
+                isVideoRecording = true;
+                
+                var recordVideoBtn = safeGetElement('recordVideoBtn');
+                if (recordVideoBtn) {
+                    recordVideoBtn.textContent = 'Stop Video ⏹️';
+                    recordVideoBtn.classList.add('recording');
+                }
+                
+                safeCall(pulseCreature);
+            } catch (e) {
+                console.error('Video recording error: ' + e.message);
+                alert('Video recording failed');
+            }
+        }
+
+        function stopVideoRecording() {
+            try {
+                if (videoRecorder && isVideoRecording) {
+                    videoRecorder.stop();
+                    isVideoRecording = false;
+                    
+                    var recordVideoBtn = safeGetElement('recordVideoBtn');
+                    if (recordVideoBtn) {
+                        recordVideoBtn.textContent = 'Record Video 🎥';
+                        recordVideoBtn.classList.remove('recording');
+                    }
+                    
+                    safeCall(pulseCreature);
+                }
+            } catch (e) {
+                console.warn('Stop video recording error: ' + e.message);
+            }
+        }
+
+        // Audio Recording
+        function toggleAudioRecording() {
+            try {
+                if (!isRecording) {
+                    startRecording();
+                } else {
+                    stopRecording();
+                }
+            } catch (e) {
+                console.warn('Toggle audio recording error: ' + e.message);
+            }
+        }
+
+        function startRecording() {
+            try {
+                if (!guitarStream) {
+                    alert('Connect guitar first!');
+                    return;
+                }
+                
+                mediaRecorder = new MediaRecorder(guitarStream, {
+                    mimeType: 'audio/webm;codecs=opus'
+                });
+                recordedChunks = [];
+                
+                mediaRecorder.ondataavailable = function(event) {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+                
+                mediaRecorder.onstop = function() {
+                    var blob = new Blob(recordedChunks, { type: 'audio/webm' });
+                    var url = URL.createObjectURL(blob);
+                    var timestamp = new Date().toLocaleTimeString();
+                    
+                    var inputStatus = safeGetElement('inputStatus');
+                    if (inputStatus) {
+                        inputStatus.innerHTML += '<br>🎵 Recording ' + timestamp + ':<br><audio controls src="' + url + '" style="width: 100%; margin: 5px 0;"></audio>';
+                    }
+                };
+                
+                mediaRecorder.start(1000);
+                isRecording = true;
+                
+                var recordAudioBtn = safeGetElement('recordAudioBtn');
+                if (recordAudioBtn) {
+                    recordAudioBtn.textContent = 'Stop Audio ⏹️';
+                    recordAudioBtn.classList.add('recording');
+                }
+                
+                safeCall(pulseCreature);
+            } catch (e) {
+                console.error('Recording error: ' + e.message);
+                alert('Recording failed');
+            }
+        }
+
+        function stopRecording() {
+            try {
+                if (mediaRecorder && isRecording) {
+                    mediaRecorder.stop();
+                    isRecording = false;
+                    
+                    var recordAudioBtn = safeGetElement('recordAudioBtn');
+                    if (recordAudioBtn) {
+                        recordAudioBtn.textContent = 'Record Audio 🎙';
+                        recordAudioBtn.classList.remove('recording');
+                    }
+                    
+                    safeCall(pulseCreature);
+                }
+            } catch (e) {
+                console.warn('Stop recording error: ' + e.message);
+            }
+        }
+
+        // Effects Chain
+        function setupEffectsChain() {
+            try {
+                if (!audioContext || !guitarStream) {
+                    console.warn('Audio context or stream not ready');
+                    return;
+                }
+                
+                effectsChain = {
+                    inputGain: audioContext.createGain(),
+                    outputGain: audioContext.createGain()
+                };
+                
+                var source = audioContext.createMediaStreamSource(guitarStream);
+                source.connect(effectsChain.inputGain);
+                effectsChain.inputGain.connect(effectsChain.outputGain);
+                effectsChain.outputGain.connect(audioContext.destination);
+                
+                // Set initial values
+                effectsChain.inputGain.gain.setValueAtTime(0.5, audioContext.currentTime);
+                effectsChain.outputGain.gain.setValueAtTime(0.75, audioContext.currentTime);
+                
+                console.log('Effects chain setup');
+            } catch (e) {
+                console.warn('Effects chain error: ' + e.message);
+                effectsChain = {
+                    inputGain: { gain: { setValueAtTime: function() {} } },
+                    outputGain: { gain: { setValueAtTime: function() {} } }
+                };
+            }
+        }
+
+        function updateEffectsChain() {
+            try {
+                if (!effectsChain) return;
+                var inputLevel = parseInt(safeGetElement('inputGain').value) / 100 || 0.5;
+                var masterLevel = parseInt(safeGetElement('masterVolume').value) / 100 || 0.75;
+                
+                effectsChain.inputGain.gain.setValueAtTime(inputLevel, audioContext.currentTime);
+                effectsChain.outputGain.gain.setValueAtTime(masterLevel, audioContext.currentTime);
+                
+                console.log('Effects updated');
+            } catch (e) {
+                console.warn('Update effects error: ' + e.message);
+            }
+        }
+
+        // Volume Monitoring
+        function startVolumeMonitoring() {
+            try {
+                if (!audioContext || !guitarStream) {
+                    console.warn('No audio context or stream');
+                    return;
+                }
+                
+                analyzer = audioContext.createAnalyser();
+                analyzer.fftSize = 256;
+                dataArray = new Uint8Array(analyzer.frequencyBinCount);
+                
+                var source = audioContext.createMediaStreamSource(guitarStream);
+                source.connect(analyzer);
+                
+                function updateVolume() {
+                    try {
+                        analyzer.getByteFrequencyData(dataArray);
+                        var sum = 0;
+                        for (var i = 0; i < dataArray.length; i++) {
+                            sum += dataArray[i];
+                        }
+                        var average = sum / dataArray.length;
+                        var percentage = Math.min((average / 255) * 100, 100);
+                        
+                        var volumeBar = safeGetElement('volumeBar');
+                        if (volumeBar) {
+                            volumeBar.style.width = percentage + '%';
+                        }
+                        
+                        var strings = document.getElementsByClassName('string');
+                        for (var i = 0; i < strings.length && i < 6; i++) {
+                            if (percentage > (i * 15)) {
+                                strings[i].classList.add('vibrating');
+                            } else {
+                                strings[i].classList.remove('vibrating');
+                            }
+                        }
+                        
+                        requestAnimationFrame(updateVolume);
+                    } catch (e) {
+                        console.warn('Volume update error: ' + e.message);
+                    }
+                }
+                
+                updateVolume();
+                console.log('Volume monitoring started');
+            } catch (e) {
+                console.warn('Volume monitoring error: ' + e.message);
+            }
+        }
+
+        // Genre Functions
+        function activateMotownMode() {
+            applyGenreProfile('motown');
+        }
+
+        function applyGenreProfile(genre) {
+            try {
+                if (!genreProfiles[genre]) {
+                    console.error('Genre profile not found: ' + genre);
+                    return;
+                }
+                
+                var profile = genreProfiles[genre];
+                for (var effect in profile) {
+                    currentEffects[effect] = profile[effect];
+                }
+                
+                safeCall(updateEffectKnobs);
+                safeCall(updateEffectsChain);
+                safeCall(function() { applyGenreVisuals(genre); });
+                
+                var status = safeGetElement('effectsStatus');
+                if (status) {
+                    var effectText = '';
+                    for (var effect in currentEffects) {
+                        effectText += effect + ': ' + currentEffects[effect] + '%<br>';
+                    }
+                    status.innerHTML = '🎵 ' + genre.toUpperCase().replace('_', ' ') + ' MODE ACTIVE!<br>' + effectText;
+                }
+                
+                safeCall(pulseCreature);
+            } catch (e) {
+                console.warn('Apply genre error: ' + e.message);
+            }
+        }
+
+        function applyGenreVisuals(genre) {
+            try {
+                currentGenre = genre;
+                var body = document.body;
+                var videoFeed = safeGetElement('videoFeed');
+                var overlay = safeGetElement('videoOverlay');
+                
+                if (overlay) {
+                    overlay.classList.remove('psychedelic');
+                }
+                
+                switch (genre) {
+                    case 'motown':
+                        body.style.filter = 'hue-rotate(0deg) saturate(1.2)';
+                        if (videoFeed) videoFeed.style.filter = 'sepia(0.1) saturate(1.2)';
+                        break;
+                    case 'blues':
+                        body.style.filter = 'hue-rotate(240deg) saturate(0.8)';
+                        if (videoFeed) videoFeed.style.filter = 'hue-rotate(240deg)';
+                        break;
+                    case 'jazz':
+                        body.style.filter = 'hue-rotate(30deg) saturate(1.1) sepia(0.2)';
+                        if (videoFeed) videoFeed.style.filter = 'hue-rotate(30deg) sepia(0.3)';
+                        break;
+                    case 'rock':
+                        body.style.filter = 'hue-rotate(0deg) saturate(1.5)';
+                        if (videoFeed) videoFeed.style.filter = 'contrast(1.3)';
+                        break;
+                    case 'funk':
+                        body.style.filter = 'hue-rotate(300deg) saturate(1.4)';
+                        if (videoFeed) videoFeed.style.filter = 'hue-rotate(300deg)';
+                        break;
+                    case 'psychedelic':
+                        body.style.filter = 'hue-rotate(120deg) saturate(2)';
+                        body.style.animation = 'psychedelic-shift 3s infinite';
+                        if (videoFeed) videoFeed.style.filter = 'hue-rotate(120deg)';
+                        if (overlay) {
+                            overlay.classList.add('psychedelic');
+                        }
+                        break;
+                    case 'caribbean':
+                        body.style.filter = 'hue-rotate(90deg) saturate(1.3)';
+                        if (videoFeed) videoFeed.style.filter = 'hue-rotate(90deg)';
+                        break;
+                    case 'salsa':
+                        body.style.filter = 'hue-rotate(350deg) saturate(1.5)';
+                        if (videoFeed) videoFeed.style.filter = 'hue-rotate(350deg)';
+                        break;
+                    case 'bossa_nova':
+                        body.style.filter = 'hue-rotate(45deg) saturate(0.9)';
+                        if (videoFeed) videoFeed.style.filter = 'hue-rotate(45deg) sepia(0.2)';
+                        break;
+                    default:
+                        body.style.filter = 'none';
+                        body.style.animation = 'none';
+                        if (videoFeed) videoFeed.style.filter = 'none';
+                }
+            } catch (e) {
+                console.error('Genre visuals error: ' + e.message);
+            }
+        }
+
+        // Knob Updates
+        function updateEffectKnobs() {
+            try {
+                var knobs = document.getElementsByClassName('effect-knob');
+                for (var i = 0; i < knobs.length; i++) {
+                    var effect = knobs[i].dataset.effect;
+                    var value = currentEffects[effect] || 0;
+                    var rotation = (value / 100) * 270 - 135;
+                    var indicator = knobs[i].querySelector('.knob-indicator');
+                    if (indicator) {
+                        indicator.style.transform = 'translateX(-50%) rotate(' + rotation + 'deg)';
+                    }
+                }
+            } catch (e) {
+                console.warn('Update knobs error: ' + e.message);
+            }
+        }
+
+        // Utility Functions
+        function pulseCreature() {
+            try {
+                var creature = safeGetElement('creature');
+                if (creature) {
+                    creature.classList.add('pulse');
+                    setTimeout(function() {
+                        creature.classList.remove('pulse');
+                    }, 500);
+                }
+            } catch (e) {
+                console.warn('Pulse creature error: ' + e.message);
+            }
+        }
+
+        function activateRandomMode() {
+            try {
+                for (var effect in currentEffects) {
+                    currentEffects[effect] = Math.floor(Math.random() * 100);
+                }
+                safeCall(updateEffectKnobs);
+                safeCall(updateEffectsChain);
+                
+                var status = safeGetElement('effectsStatus');
+                if (status) {
+                    var effectText = '';
+                    for (var effect in currentEffects) {
+                        effectText += effect + ': ' + currentEffects[effect] + '%<br>';
+                    }
+                    status.innerHTML = '🎲 RANDOM MODE!<br>' + effectText;
+                }
+                
+                safeCall(pulseCreature);
+            } catch (e) {
+                console.warn('Random mode error: ' + e.message);
+            }
+        }
+
+        function killAllEffects() {
+            try {
+                for (var effect in currentEffects) {
+                    currentEffects[effect] = 0;
+                }
+                safeCall(updateEffectKnobs);
+                safeCall(updateEffectsChain);
+                
+                var status = safeGetElement('effectsStatus');
+                if (status) {
+                    status.innerHTML = '🔇 ALL EFFECTS OFF<br>Clean signal';
+                }
+                
+                safeCall(pulseCreature);
+            } catch (e) {
+                console.warn('Kill effects error: ' + e.message);
+            }
+        }
+
+        function saveSession() {
+            try {
+                var sessionData = {
+                    effects: currentEffects,
+                    bpm: safeGetElement('bpmInput').value,
+                    timestamp: new Date().toISOString()
+                };
+                
+                var status = safeGetElement('inputStatus');
+                if (status) {
+                    status.innerHTML += '<br>💾 Session saved to memory!';
+                }
+                
+                safeCall(pulseCreature);
+            } catch (e) {
+                console.warn('Save session error: ' + e.message);
+            }
+        }
+
+        function startJamSession() {
+            try {
+                initAudio();
+                safeCall(activateRandomMode);
+                
+                var status = safeGetElement('inputStatus');
+                if (status) {
+                    status.innerHTML += '<br>🎸 JAM SESSION ON!';
+                }
+                
+                safeCall(pulseCreature);
+            } catch (e) {
+                console.warn('Jam session error: ' + e.message);
+            }
+        }
+
+        function exportTrack() {
+            try {
+                alert('Export feature coming soon!');
+                safeCall(pulseCreature);
+            } catch (e) {
+                console.warn('Export track error: ' + e.message);
+            }
+        }
+
+        // Tuning
+        function playTuningNote() {
             try {
                 initAudio();
                 
-                guitarStream = await navigator.mediaDevices.getUserMedia({
+                var string = safeGetElement('tuningString').value;
+                var fret = parseInt(safeGetElement('fretSelect').value);
+                var baseFreq = stringFrequencies[string];
+                var freq = baseFreq * Math.pow(2, fret / 12);
+                
+                var osc = audioContext.createOscillator();
+                var gain = audioContext.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, audioContext.currentTime);
+                gain.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
+                
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+                osc.start();
+                osc.stop(audioContext.currentTime + 1);
+                
+                safeCall(pulseCreature);
+            } catch (e) {
+                console.warn('Tuning note error: ' + e.message);
+            }
+        }
+
+        // Rhythm
+        function playSelectedRhythm() {
+            try {
+                initAudio();
+                
+                var selectedPad = document.querySelector('.beat-pad.active');
+                if (!selectedPad) {
+                    alert('Select a rhythm pattern!');
+                    return;
+                }
+                
+                var pattern = selectedPad.dataset.pattern;
+                var bpm = parseInt(safeGetElement('bpmInput').value);
+                var beatDuration = (60 / bpm) * 1000 / 4;
+                
+                var rhythm = rhythmPatterns[pattern];
+                var time = audioContext.currentTime;
+                
+                for (var i = 0; i < rhythm.length; i++) {
+                    if (rhythm[i] > 0) {
+                        var osc = audioContext.createOscillator();
+                        var gain = audioContext.createGain();
+                        
+                        osc.type = 'square';
+                        osc.frequency.setValueAtTime(200, time);
+                        gain.gain.setValueAtTime(rhythm[i] * 0.3, time);
+                        gain.gain.exponentialRampToValueAtTime(0.01, time + 0.1);
+                        
+                        osc.connect(gain);
+                        gain.connect(audioContext.destination);
+                        osc.start(time);
+                        osc.stop(time + 0.1);
+                        
+                        (function(index) {
+                            setTimeout(function() {
+                                safeCall(pulseCreature);
+                            }, index * beatDuration);
+                        })(i);
+                    }
+                    time += beatDuration / 1000;
+                }
+            } catch (e) {
+                console.warn('Play rhythm error: ' + e.message);
+            }
+        }
+
+        // Connect Guitar
+        function connectGuitar() {
+            try {
+                initAudio();
+                
+                navigator.mediaDevices.getUserMedia({
                     audio: {
                         echoCancellation: false,
                         noiseSuppression: false,
@@ -456,414 +1245,94 @@
                         channelCount: 1,
                         sampleRate: 44100
                     }
-                });
-                
-                await setupEffectsChain();
-                
-                document.getElementById('inputStatus').innerHTML = `
-                    ✅ Guitar Connected & Effects Active!
-                    Input Level: Monitoring...
-                    Motown Processing: Ready to slide!
-                `;
-                
-                document.getElementById('connectGuitar').textContent = 'Guitar Connected ✅';
-                document.getElementById('connectGuitar').style.background = 'linear-gradient(45deg, #27ae60, #2ecc71)';
-                
-                startVolumeMonitoring();
-                
-            } catch (error) {
-                console.error('Error connecting guitar:', error);
-                document.getElementById('inputStatus').innerHTML = `
-                    ❌ Error: ${error.message}
-                    Please check microphone permissions
-                    Try refreshing and clicking Connect again
-                `;
-            }
-        }
-        
-        // REAL Audio Effects Chain Setup
-        async function setupEffectsChain() {
-            if (!guitarStream || !audioContext) return;
-            
-            const source = audioContext.createMediaStreamSource(guitarStream);
-            analyzer = audioContext.createAnalyser();
-            analyzer.fftSize = 2048;
-            dataArray = new Uint8Array(analyzer.frequencyBinCount);
-            
-            // Create effects nodes
-            const inputGain = audioContext.createGain();
-            const driveNode = audioContext.createWaveShaper();
-            const reverbNode = audioContext.createConvolver();
-            const outputGain = audioContext.createGain();
-            
-            // Setup drive (distortion)
-            driveNode.curve = createDistortionCurve(currentEffects.drive);
-            driveNode.oversample = '4x';
-            
-            // Setup reverb (simple impulse response)
-            await setupReverb(reverbNode);
-            
-            // Connect the chain: Input -> Analyzer -> Gain -> Drive -> Reverb -> Output
-            source.connect(analyzer);
-            source.connect(inputGain);
-            inputGain.connect(driveNode);
-            driveNode.connect(reverbNode);
-            reverbNode.connect(outputGain);
-            outputGain.connect(audioContext.destination);
-            
-            // Store references for real-time control
-            effectsChain = {
-                source,
-                inputGain,
-                driveNode,
-                reverbNode,
-                outputGain
-            };
-            
-            // Apply current effect levels
-            updateEffectsChain();
-        }
-        
-        // Create distortion curve for drive effect
-        function createDistortionCurve(amount) {
-            const samples = 44100;
-            const curve = new Float32Array(samples);
-            const deg = Math.PI / 180;
-            
-            for (let i = 0; i < samples; i++) {
-                const x = (i * 2) / samples - 1;
-                curve[i] = ((3 + amount) * x * 20 * deg) / (Math.PI + amount * Math.abs(x));
-            }
-            
-            return curve;
-        }
-        
-        // Setup simple reverb
-        async function setupReverb(convolver) {
-            // Create simple impulse response for reverb
-            const length = audioContext.sampleRate * 2; // 2 second reverb
-            const impulse = audioContext.createBuffer(2, length, audioContext.sampleRate);
-            
-            for (let channel = 0; channel < 2; channel++) {
-                const channelData = impulse.getChannelData(channel);
-                for (let i = 0; i < length; i++) {
-                    channelData[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2);
-                }
-            }
-            
-            convolver.buffer = impulse;
-        }
-        
-        // Update effects chain in real-time
-        function updateEffectsChain() {
-            if (!effectsChain) return;
-            
-            // Update input gain
-            const inputLevel = document.getElementById('inputGain').value / 100;
-            effectsChain.inputGain.gain.setValueAtTime(inputLevel, audioContext.currentTime);
-            
-            // Update drive
-            effectsChain.driveNode.curve = createDistortionCurve(currentEffects.drive);
-            
-            // Reverb mix (dry/wet)
-            const reverbMix = currentEffects.reverb / 100;
-            // Note: This is simplified - real reverb would need separate dry/wet chains
-            
-            // Update output volume
-            const masterLevel = document.getElementById('masterVolume').value / 100;
-            effectsChain.outputGain.gain.setValueAtTime(masterLevel, audioContext.currentTime);
-        }
-        
-        // Volume Monitoring
-        function startVolumeMonitoring() {
-            function updateVolume() {
-                if (analyzer) {
-                    analyzer.getByteFrequencyData(dataArray);
-                    const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
-                    const percentage = (average / 255) * 100;
+                }).then(function(stream) {
+                    guitarStream = stream;
+                    safeCall(setupEffectsChain);
+                    safeCall(initVideoFeed);
+                    safeCall(startVolumeMonitoring);
                     
-                    document.getElementById('volumeBar').style.width = percentage + '%';
-                    
-                    // Visual feedback on guitar strings
-                    if (percentage > 30) {
-                        document.querySelectorAll('.string').forEach(string => {
-                            string.classList.add('vibrating');
-                        });
-                        setTimeout(() => {
-                            document.querySelectorAll('.string').forEach(string => {
-                                string.classList.remove('vibrating');
-                            });
-                        }, 100);
+                    var inputStatus = safeGetElement('inputStatus');
+                    if (inputStatus) {
+                        inputStatus.innerHTML = '✅ Guitar & Video Connected!<br>Ready for 2 guitars!<br>🎤 Try: funk, record video, random mode';
                     }
                     
-                    requestAnimationFrame(updateVolume);
-                }
-            }
-            updateVolume();
-        }
-        
-        // Recording Functions with REAL Audio
-        function toggleRecording() {
-            if (!isRecording) {
-                startRecording();
-            } else {
-                stopRecording();
-            }
-        }
-        
-        function startRecording() {
-            if (!guitarStream) {
-                alert('Please connect guitar first!');
-                return;
-            }
-            
-            try {
-                // Create new MediaRecorder with processed audio
-                mediaRecorder = new MediaRecorder(guitarStream, {
-                    mimeType: 'audio/webm;codecs=opus'
-                });
-                
-                recordedChunks = [];
-                
-                mediaRecorder.ondataavailable = (event) => {
-                    if (event.data.size > 0) {
-                        recordedChunks.push(event.data);
+                    var connectBtn = safeGetElement('connectGuitar');
+                    if (connectBtn) {
+                        connectBtn.textContent = 'Guitar Connected ✅';
+                        connectBtn.style.background = 'linear-gradient(45deg, #27ae60, #2ecc71)';
                     }
-                };
-                
-                mediaRecorder.onstop = () => {
-                    const blob = new Blob(recordedChunks, { type: 'audio/webm' });
-                    const url = URL.createObjectURL(blob);
-                    const timestamp = new Date().toLocaleTimeString();
-                    
-                    document.getElementById('inputStatus').innerHTML += `
-                        <br>🎵 Recording ${timestamp}:
-                        <audio controls src="${url}" style="width: 100%; margin: 5px 0;"></audio>
-                    `;
-                };
-                
-                mediaRecorder.start(1000); // Record in 1-second chunks
-                isRecording = true;
-                
-                document.getElementById('recordBtn').textContent = 'Stop Recording ⏹️';
-                document.getElementById('recordBtn').classList.add('recording');
-                
-                // Visual feedback
-                pulseCreature();
-                
-            } catch (error) {
-                console.error('Recording error:', error);
-                alert('Recording failed. Try a different browser or check audio permissions.');
+                }).catch(function(error) {
+                    console.error('Guitar connect error: ' + error.message);
+                    var inputStatus = safeGetElement('inputStatus');
+                    if (inputStatus) {
+                        inputStatus.innerHTML = '❌ Error: ' + error.message + '<br>Check mic/webcam permissions';
+                    }
+                });
+            } catch (e) {
+                console.error('Connect guitar error: ' + e.message);
             }
         }
-        
-        function stopRecording() {
-            if (mediaRecorder && isRecording) {
-                mediaRecorder.stop();
-                isRecording = false;
-                
-                document.getElementById('recordBtn').textContent = 'Record 🎙️';
-                document.getElementById('recordBtn').classList.remove('recording');
-                
-                pulseCreature();
-            }
-        }
-        
-        // Tuning Functions
-        function playTuningNote() {
-            initAudio();
-            
-            const string = document.getElementById('tuningString').value;
-            const fret = parseInt(document.getElementById('fretSelect').value);
-            
-            const baseFreq = stringFrequencies[string];
-            const freq = baseFreq * Math.pow(2, fret / 12);
-            
-            const osc = audioContext.createOscillator();
-            const gain = audioContext.createGain();
-            
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(freq, audioContext.currentTime);
-            gain.gain.setValueAtTime(0.3, audioContext.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
-            
-            osc.connect(gain).connect(audioContext.destination);
-            osc.start();
-            osc.stop(audioContext.currentTime + 1);
-            
-            // Visual feedback
-            pulseCreature();
-        }
-        
-        // Rhythm Functions
-        function playSelectedRhythm() {
-            initAudio();
-            
-            const selectedPad = document.querySelector('.beat-pad.active');
-            if (!selectedPad) {
-                alert('Please select a rhythm pattern first!');
-                return;
-            }
-            
-            const pattern = selectedPad.dataset.pattern;
-            const bpm = parseInt(document.getElementById('bpmInput').value);
-            const beatDuration = (60 / bpm) * 1000 / 4; // Quarter note in ms
-            
-            const rhythm = rhythmPatterns[pattern];
-            let time = audioContext.currentTime;
-            
-            rhythm.forEach((velocity, index) => {
-                if (velocity > 0) {
-                    const osc = audioContext.createOscillator();
-                    const gain = audioContext.createGain();
-                    
-                    osc.type = 'square';
-                    osc.frequency.setValueAtTime(200, time);
-                    gain.gain.setValueAtTime(velocity * 0.3, time);
-                    gain.gain.exponentialRampToValueAtTime(0.01, time + 0.1);
-                    
-                    osc.connect(gain).connect(audioContext.destination);
-                    osc.start(time);
-                    osc.stop(time + 0.1);
-                    
-                    // Visual pulse
-                    setTimeout(() => pulseCreature(), index * beatDuration);
-                }
-                time += beatDuration / 1000;
-            });
-        }
-        
-        // Motown Mode with REAL Effects + Shadow Code for Future Genres
-        function activateMotownMode() {
-            applyGenreProfile('motown');
-        }
-        
-        // Generic genre profile application (Shadow Code Protocol)
-        function applyGenreProfile(genre) {
-            if (!genreProfiles[genre]) {
-                console.error(`Genre profile '${genre}' not found`);
-                return;
-            }
-            
-            const profile = genreProfiles[genre];
-            currentEffects.slide = profile.slide;
-            currentEffects.boogie = profile.boogie;
-            currentEffects.reverb = profile.reverb;
-            currentEffects.drive = profile.drive;
-            
-            // Update visual indicators
-            updateEffectKnobs();
-            
-            // Apply to audio chain
-            updateEffectsChain();
-            
-            // Update status display
-            document.getElementById('effectsStatus').innerHTML = `
-                🎵 ${genre.toUpperCase()} MODE ACTIVATED! 🎵
-                Slide: ${currentEffects.slide}%
-                Boogie: ${currentEffects.boogie}%
-                Reverb: ${currentEffects.reverb}%
-                Drive: ${currentEffects.drive}%
-                Ready to ${genre === 'motown' ? 'slide & groove!' : 'rock the ' + genre + '!'}
-            `;
-            
-            // Visual feedback
-            pulseCreature();
-            
-            // Add genre-specific visual effects
-            if (genre === 'motown') {
-                document.body.style.filter = 'hue-rotate(0deg)';
-            }
-            // Shadow code for future genres:
-            // else if (genre === 'blues') document.body.style.filter = 'hue-rotate(240deg)';
-            // else if (genre === 'psychedelic') document.body.style.filter = 'hue-rotate(120deg)';
-        }
-        
-        // Update visual knob positions
-        function updateEffectKnobs() {
-            document.querySelectorAll('.effect-knob').forEach(knob => {
-                const effect = knob.dataset.effect;
-                const value = currentEffects[effect] || 0;
-                const rotation = (value / 100) * 270 - 135; // -135 to +135 degrees
-                knob.querySelector('.knob-indicator').style.transform = 
-                    `translateX(-50%) rotate(${rotation}deg)`;
-            });
-        }
-        
-        // Utility Functions
-        function pulseCreature() {
-            const creature = document.getElementById('creature');
-            creature.classList.add('pulse');
-            setTimeout(() => creature.classList.remove('pulse'), 500);
-        }
-        
-        function startJamSession() {
-            initAudio();
-            alert('🚀 Jam Session Started! Let\'s make some Motown magic!');
-            pulseCreature();
-        }
-        
-        function saveSession() {
-            const sessionData = {
-                effects: currentEffects,
-                bpm: document.getElementById('bpmInput').value,
-                timestamp: new Date().toISOString()
-            };
-            
-            localStorage.setItem('cosmicStudioSession', JSON.stringify(sessionData));
-            alert('💾 Session saved to Memory Vault!');
-        }
-        
-        function exportTrack() {
-            alert('📤 Export feature coming soon! Your cosmic grooves will be shareable across the galaxy!');
-        }
-        
+
         // Event Listeners
         document.addEventListener('DOMContentLoaded', function() {
-            // Beat pad selection
-            document.querySelectorAll('.beat-pad').forEach(pad => {
-                pad.addEventListener('click', function() {
-                    document.querySelectorAll('.beat-pad').forEach(p => p.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-            
-            // Effect knobs with REAL audio control
-            document.querySelectorAll('.effect-knob').forEach(knob => {
-                knob.addEventListener('click', function() {
-                    const effect = this.dataset.effect;
-                    currentEffects[effect] = (currentEffects[effect] + 25) % 100;
-                    
-                    // Update audio processing
-                    updateEffectsChain();
-                    
-                    // Update visual indicator
-                    updateEffectKnobs();
-                    
-                    document.getElementById('effectsStatus').innerHTML = `
-                        Effects Active:
-                        Slide: ${currentEffects.slide}%
-                        Boogie: ${currentEffects.boogie}%
-                        Reverb: ${currentEffects.reverb}%
-                        Drive: ${currentEffects.drive}%
-                    `;
-                    
-                    pulseCreature();
-                });
-            });
-            
-            // Input gain real-time control
-            document.getElementById('inputGain').addEventListener('input', function() {
-                updateEffectsChain();
-            });
-            
-            // Master volume real-time control
-            document.getElementById('masterVolume').addEventListener('input', function() {
-                updateEffectsChain();
-            });
-            
-            // Auto-select first rhythm pattern
-            document.querySelector('.beat-pad').classList.add('active');
+            try {
+                console.log('🎸 KOZMIC STUDIO LOADING...');
+                
+                var beatPads = document.getElementsByClassName('beat-pad');
+                for (var i = 0; i < beatPads.length; i++) {
+                    beatPads[i].addEventListener('click', function() {
+                        var pads = document.getElementsByClassName('beat-pad');
+                        for (var j = 0; j < pads.length; j++) {
+                            pads[j].classList.remove('active');
+                        }
+                        this.classList.add('active');
+                    });
+                }
+                
+                var effectKnobs = document.getElementsByClassName('effect-knob');
+                for (var i = 0; i < effectKnobs.length; i++) {
+                    effectKnobs[i].addEventListener('click', function() {
+                        var effect = this.dataset.effect;
+                        currentEffects[effect] = (currentEffects[effect] + 25) % 100;
+                        safeCall(updateEffectsChain);
+                        safeCall(updateEffectKnobs);
+                        
+                        var status = safeGetElement('effectsStatus');
+                        if (status) {
+                            var effectText = '';
+                            for (var effect in currentEffects) {
+                                effectText += effect + ': ' + currentEffects[effect] + '%<br>';
+                            }
+                            status.innerHTML = 'Effects Active:<br>' + effectText;
+                        }
+                        
+                        safeCall(pulseCreature);
+                    });
+                }
+                
+                var inputGain = safeGetElement('inputGain');
+                if (inputGain) {
+                    inputGain.addEventListener('input', function() {
+                        safeCall(updateEffectsChain);
+                    });
+                }
+                
+                var masterVolume = safeGetElement('masterVolume');
+                if (masterVolume) {
+                    masterVolume.addEventListener('input', function() {
+                        safeCall(updateEffectsChain);
+                    });
+                }
+                
+                var firstPad = document.querySelector('.beat-pad');
+                if (firstPad) {
+                    firstPad.classList.add('active');
+                }
+                
+                console.log('✅ KOZMIC STUDIO READY!');
+            } catch (e) {
+                console.error('DOM loaded error: ' + e.message);
+            }
         });
     </script>
 </body>
