@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎸 Cosmic Pro Studio - Motown Slide & Boogie</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white; font-family: 'Arial', sans-serif; overflow-x: hidden;
+        }
+        
+        .header {
+            text-align: center; padding: 20px;
+            background: rgba(255, 107, 157, 0.1);
+            border-bottom: 2px solid #ff6b9d;
+        }
+        
+        .studio-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px; padding: 20px;
+            min-height: 80vh;
+        }
+        
+        .module {
+            background: rgba(255, 107, 157, 0.15);
+            border: 2px solid #ff6b9d;
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(255, 107, 157, 0.2);
+        }
+        
+        .module h2 {
+            color: #ff6b9d;
+            margin-bottom: 15px;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 107, 157, 0.5);
+        }
+        
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #ff6b9d, #9b59b6);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
+        }
+        
+        .btn:active { transform: translateY(0); }
+        
+        .btn.recording {
+            background: linear-gradient(45deg, #ff4757, #ff6b9d);
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        select, input {
+            background: rgba(44, 44, 78, 0.8);
+            color: white;
+            border: 2px solid #ff6b9d;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        
+        .guitar-visual {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(90deg, #8b4513 0%, #daa520 100%);
+            border-radius: 10px;
+            position: relative;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .string {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: #c0c0c0;
+            box-shadow: 0 0 5px rgba(192, 192, 192, 0.5);
+        }
+        
+        .string:nth-child(1) { top: 20px; }
+        .string:nth-child(2) { top: 50px; }
+        .string:nth-child(3) { top: 80px; }
+        .string:nth-child(4) { top: 110px; }
+        .string:nth-child(5) { top: 140px; }
+        .string:nth-child(6) { top: 170px; }
+        
+        .string.vibrating {
+            animation: vibrate 0.1s infinite;
+        }
+        
+        @keyframes vibrate {
+            0%, 100% { transform: translateY(0); }
+            25% { transform: translateY(-1px); }
+            75% { transform: translateY(1px); }
+        }
+        
+        .volume-meter {
+            width: 100%;
+            height: 30px;
+            background: #2c2c4e;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            margin: 10px 0;
+        }
+        
+        .volume-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff00, #ffff00, #ff0000);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+        
+        .effects-rack {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .effect-knob {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #333, #666);
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            margin: 0 auto;
+        }
+        
+        .knob-indicator {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            width: 3px;
+            height: 20px;
+            background: #ff6b9d;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .rhythm-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .beat-pad {
+            aspect-ratio: 1;
+            background: rgba(255, 107, 157, 0.3);
+            border: 2px solid #ff6b9d;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        
+        .beat-pad:hover {
+            background: rgba(255, 107, 157, 0.6);
+            transform: scale(1.05);
+        }
+        
+        .beat-pad.active {
+            background: #ff6b9d;
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.8);
+        }
+        
+        .creature {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ff6b9d, #3498db);
+            border-radius: 50%;
+            margin: 20px auto;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .creature.pulse {
+            animation: creature-pulse 0.5s ease;
+        }
+        
+        @keyframes creature-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); filter: brightness(1.5); }
+        }
+        
+        .master-controls {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: rgba(255, 107, 157, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        
+        .status-display {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+            min-height: 60px;
+        }
+        
+        .motown-mode {
+            background: linear-gradient(45deg, #d4af37, #ffd700);
+            color: #000;
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎸 Cosmic Pro Studio</h1>
+        <p>Motown Slide & Boogie Edition</p>
+        <div class="creature" id="creature"></div>
+    </div>
+    
+    <div class="studio-container">
+        <!-- Guitar Input Module -->
+        <div class="module">
+            <h2>🎸 Guitar Input</h2>
+            <div class="input-section">
+                <button class="btn" id="connectGuitar" onclick="connectGuitar()">Connect Guitar</button>
+                <button class="btn" id="recordBtn" onclick="toggleRecording()">Record</button>
+                
+                <div class="guitar-visual" id="guitarVisual">
+                    <div class="string"></div>
+                    <div class="string"></div>
+                    <div class="string"></div>
+                    <div class="string"></div>
+                    <div class="string"></div>
+                    <div class="string"></div>
+                </div>
+                
+                <div class="volume-meter">
+                    <div class="volume-bar" id="volumeBar"></div>
+                </div>
+                
+                <label>Input Gain:</label>
+                <input type="range" id="inputGain" min="0" max="100" value="50">
+                
+                <div class="status-display" id="inputStatus">
+                    Ready for guitar input...
+                    Click "Connect Guitar" to start!
+                </div>
+            </div>
+        </div>
+        
+        <!-- Effects Rack -->
+        <div class="module">
+            <h2>🌟 Motown Effects</h2>
+            <div class="effects-rack">
+                <div style="text-align: center;">
+                    <label>Slide</label>
+                    <div class="effect-knob" data-effect="slide">
+                        <div class="knob-indicator"></div>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <label>Boogie</label>
+                    <div class="effect-knob" data-effect="boogie">
+                        <div class="knob-indicator"></div>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <label>Reverb</label>
+                    <div class="effect-knob" data-effect="reverb">
+                        <div class="knob-indicator"></div>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <label>Drive</label>
+                    <div class="effect-knob" data-effect="drive">
+                        <div class="knob-indicator"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn motown-mode" onclick="activateMotownMode()">
+                🎵 Activate Motown Mode
+            </button>
+            
+            <div class="status-display" id="effectsStatus">
+                Effects: Clean
+                Motown Mode: OFF
+                Ready to slide and boogie!
+            </div>
+        </div>
+        
+        <!-- Rhythm & Tuning -->
+        <div class="module">
+            <h2>🥁 Rhythm & Tuning</h2>
+            <div class="input-section">
+                <label>Tuning Reference:</label>
+                <select id="tuningString">
+                    <option value="E2">Low E (82.41Hz)</option>
+                    <option value="A2">A (110Hz)</option>
+                    <option value="D3">D (146.83Hz)</option>
+                    <option value="G3">G (196Hz)</option>
+                    <option value="B3">B (246.94Hz)</option>
+                    <option value="E4">High E (329.63Hz)</option>
+                </select>
+                
+                <select id="fretSelect">
+                    <option value="0">Open</option>
+                    <option value="1">1st Fret</option>
+                    <option value="2">2nd Fret</option>
+                    <option value="3">3rd Fret</option>
+                    <option value="4">4th Fret</option>
+                    <option value="5">5th Fret</option>
+                    <option value="6">6th Fret</option>
+                    <option value="7">7th Fret</option>
+                    <option value="8">8th Fret</option>
+                    <option value="9">9th Fret</option>
+                    <option value="10">10th Fret</option>
+                    <option value="11">11th Fret</option>
+                </select>
+                
+                <button class="btn" onclick="playTuningNote()">Play Tuning Note</button>
+                
+                <label>BPM:</label>
+                <input type="number" id="bpmInput" value="120" min="60" max="180">
+                
+                <div class="rhythm-grid">
+                    <div class="beat-pad" data-pattern="2_eighths">1&2</div>
+                    <div class="beat-pad" data-pattern="3_triplet">Trip</div>
+                    <div class="beat-pad" data-pattern="syncopated">Sync</div>
+                    <div class="beat-pad" data-pattern="boogie">Boogie</div>
+                </div>
+                
+                <button class="btn" onclick="playSelectedRhythm()">Play Rhythm</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Master Controls -->
+    <div class="master-controls">
+        <button class="btn" onclick="startJamSession()">🚀 Start Jam Session</button>
+        <button class="btn" onclick="saveSession()">💾 Save Session</button>
+        <button class="btn" onclick="exportTrack()">📤 Export Track</button>
+        <div style="text-align: center;">
+            <label>Master Volume:</label>
+            <input type="range" id="masterVolume" min="0" max="100" value="75">
+        </div>
+    </div>
+
+    <script>
+        // Audio Context and Variables
+        let audioContext;
+        let guitarStream;
+        let isRecording = false;
+        let recordedChunks = [];
+        let analyzer;
+        let dataArray;
+        let currentEffects = {
+            slide: 0,
+            boogie: 0,
+            reverb: 0,
+            drive: 0
+        };
+        
+        // Guitar String Frequencies
+        const stringFrequencies = {
+            'E2': 82.41, 'A2': 110, 'D3': 146.83, 
+            'G3': 196, 'B3': 246.94, 'E4': 329.63
+        };
+        
+        // Rhythm Patterns
+        const rhythmPatterns = {
+            '2_eighths': [1, 0.5, 1, 0.5],
+            '3_triplet': [1, 1, 1].map(n => n * 0.67),
+            'syncopated': [1, 0, 0.5, 1],
+            'boogie': [1, 0, 1, 0.5, 0, 1, 0.5, 0]
+        };
+        
+        // Initialize Audio Context
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+        }
+        
+        // Connect Guitar Input
+        async function connectGuitar() {
+            try {
+                initAudio();
+                
+                guitarStream = await navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        echoCancellation: false,
+                        noiseSuppression: false,
+                        autoGainControl: false
+                    }
+                });
+                
+                const source = audioContext.createMediaStreamSource(guitarStream);
+                analyzer = audioContext.createAnalyser();
+                analyzer.fftSize = 2048;
+                
+                source.connect(analyzer);
+                
+                dataArray = new Uint8Array(analyzer.frequencyBinCount);
+                
+                document.getElementById('inputStatus').innerHTML = `
+                    ✅ Guitar Connected!
+                    Input Level: Monitoring...
+                    Ready for Motown magic!
+                `;
+                
+                document.getElementById('connectGuitar').textContent = 'Guitar Connected ✅';
+                document.getElementById('connectGuitar').style.background = 'linear-gradient(45deg, #27ae60, #2ecc71)';
+                
+                startVolumeMonitoring();
+                
+            } catch (error) {
+                console.error('Error connecting guitar:', error);
+                document.getElementById('inputStatus').innerHTML = `
+                    ❌ Error: ${error.message}
+                    Please check microphone permissions
+                `;
+            }
+        }
+        
+        // Volume Monitoring
+        function startVolumeMonitoring() {
+            function updateVolume() {
+                if (analyzer) {
+                    analyzer.getByteFrequencyData(dataArray);
+                    const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
+                    const percentage = (average / 255) * 100;
+                    
+                    document.getElementById('volumeBar').style.width = percentage + '%';
+                    
+                    // Visual feedback on guitar strings
+                    if (percentage > 30) {
+                        document.querySelectorAll('.string').forEach(string => {
+                            string.classList.add('vibrating');
+                        });
+                        setTimeout(() => {
+                            document.querySelectorAll('.string').forEach(string => {
+                                string.classList.remove('vibrating');
+                            });
+                        }, 100);
+                    }
+                    
+                    requestAnimationFrame(updateVolume);
+                }
+            }
+            updateVolume();
+        }
+        
+        // Recording Functions
+        function toggleRecording() {
+            if (!isRecording) {
+                startRecording();
+            } else {
+                stopRecording();
+            }
+        }
+        
+        function startRecording() {
+            if (!guitarStream) {
+                alert('Please connect guitar first!');
+                return;
+            }
+            
+            const mediaRecorder = new MediaRecorder(guitarStream);
+            recordedChunks = [];
+            
+            mediaRecorder.ondataavailable = (event) => {
+                recordedChunks.push(event.data);
+            };
+            
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+                const url = URL.createObjectURL(blob);
+                
+                document.getElementById('inputStatus').innerHTML += `
+                    🎵 Recording saved!
+                    <audio controls src="${url}"></audio>
+                `;
+            };
+            
+            mediaRecorder.start();
+            isRecording = true;
+            
+            document.getElementById('recordBtn').textContent = 'Stop Recording';
+            document.getElementById('recordBtn').classList.add('recording');
+        }
+        
+        function stopRecording() {
+            // This would stop the MediaRecorder
+            isRecording = false;
+            document.getElementById('recordBtn').textContent = 'Record';
+            document.getElementById('recordBtn').classList.remove('recording');
+        }
+        
+        // Tuning Functions
+        function playTuningNote() {
+            initAudio();
+            
+            const string = document.getElementById('tuningString').value;
+            const fret = parseInt(document.getElementById('fretSelect').value);
+            
+            const baseFreq = stringFrequencies[string];
+            const freq = baseFreq * Math.pow(2, fret / 12);
+            
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, audioContext.currentTime);
+            gain.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
+            
+            osc.connect(gain).connect(audioContext.destination);
+            osc.start();
+            osc.stop(audioContext.currentTime + 1);
+            
+            // Visual feedback
+            pulseCreature();
+        }
+        
+        // Rhythm Functions
+        function playSelectedRhythm() {
+            initAudio();
+            
+            const selectedPad = document.querySelector('.beat-pad.active');
+            if (!selectedPad) {
+                alert('Please select a rhythm pattern first!');
+                return;
+            }
+            
+            const pattern = selectedPad.dataset.pattern;
+            const bpm = parseInt(document.getElementById('bpmInput').value);
+            const beatDuration = (60 / bpm) * 1000 / 4; // Quarter note in ms
+            
+            const rhythm = rhythmPatterns[pattern];
+            let time = audioContext.currentTime;
+            
+            rhythm.forEach((velocity, index) => {
+                if (velocity > 0) {
+                    const osc = audioContext.createOscillator();
+                    const gain = audioContext.createGain();
+                    
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(200, time);
+                    gain.gain.setValueAtTime(velocity * 0.3, time);
+                    gain.gain.exponentialRampToValueAtTime(0.01, time + 0.1);
+                    
+                    osc.connect(gain).connect(audioContext.destination);
+                    osc.start(time);
+                    osc.stop(time + 0.1);
+                    
+                    // Visual pulse
+                    setTimeout(() => pulseCreature(), index * beatDuration);
+                }
+                time += beatDuration / 1000;
+            });
+        }
+        
+        // Motown Mode
+        function activateMotownMode() {
+            currentEffects.slide = 75;
+            currentEffects.boogie = 80;
+            currentEffects.reverb = 60;
+            currentEffects.drive = 65;
+            
+            document.getElementById('effectsStatus').innerHTML = `
+                🎵 MOTOWN MODE ACTIVATED! 🎵
+                Slide: ${currentEffects.slide}%
+                Boogie: ${currentEffects.boogie}%
+                Reverb: ${currentEffects.reverb}%
+                Drive: ${currentEffects.drive}%
+                Ready to groove!
+            `;
+            
+            pulseCreature();
+        }
+        
+        // Utility Functions
+        function pulseCreature() {
+            const creature = document.getElementById('creature');
+            creature.classList.add('pulse');
+            setTimeout(() => creature.classList.remove('pulse'), 500);
+        }
+        
+        function startJamSession() {
+            initAudio();
+            alert('🚀 Jam Session Started! Let\'s make some Motown magic!');
+            pulseCreature();
+        }
+        
+        function saveSession() {
+            const sessionData = {
+                effects: currentEffects,
+                bpm: document.getElementById('bpmInput').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('cosmicStudioSession', JSON.stringify(sessionData));
+            alert('💾 Session saved to Memory Vault!');
+        }
+        
+        function exportTrack() {
+            alert('📤 Export feature coming soon! Your cosmic grooves will be shareable across the galaxy!');
+        }
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Beat pad selection
+            document.querySelectorAll('.beat-pad').forEach(pad => {
+                pad.addEventListener('click', function() {
+                    document.querySelectorAll('.beat-pad').forEach(p => p.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Effect knobs (basic visual feedback)
+            document.querySelectorAll('.effect-knob').forEach(knob => {
+                knob.addEventListener('click', function() {
+                    const effect = this.dataset.effect;
+                    currentEffects[effect] = (currentEffects[effect] + 25) % 100;
+                    
+                    document.getElementById('effectsStatus').innerHTML = `
+                        Effects Active:
+                        Slide: ${currentEffects.slide}%
+                        Boogie: ${currentEffects.boogie}%
+                        Reverb: ${currentEffects.reverb}%
+                        Drive: ${currentEffects.drive}%
+                    `;
+                    
+                    pulseCreature();
+                });
+            });
+            
+            // Auto-select first rhythm pattern
+            document.querySelector('.beat-pad').classList.add('active');
+        });
+    </script>
+</body>
+</html>
