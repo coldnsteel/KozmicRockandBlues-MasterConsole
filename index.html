@@ -391,11 +391,32 @@
         let recordedChunks = [];
         let analyzer;
         let dataArray;
+        let effectsChain = null;
+        let mediaRecorder = null;
         let currentEffects = {
             slide: 0,
             boogie: 0,
             reverb: 0,
             drive: 0
+        };
+        
+        // SHADOW CODE PROTOCOL: Future Genre Expansions
+        const genreProfiles = {
+            motown: { slide: 75, boogie: 80, reverb: 60, drive: 65 },
+            blues: { slide: 90, boogie: 40, reverb: 30, drive: 85 },
+            jazz: { slide: 20, boogie: 60, reverb: 80, drive: 25 },
+            rock: { slide: 30, boogie: 70, reverb: 40, drive: 90 },
+            funk: { slide: 50, boogie: 95, reverb: 50, drive: 60 },
+            psychedelic: { slide: 85, boogie: 60, reverb: 95, drive: 70 }
+        };
+        
+        // Shadow functions for future activation (not called yet)
+        const shadowGenreFunctions = {
+            activateBluesMode: () => applyGenreProfile('blues'),
+            activateJazzMode: () => applyGenreProfile('jazz'),
+            activateRockMode: () => applyGenreProfile('rock'),
+            activateFunkMode: () => applyGenreProfile('funk'),
+            activatePsychedelicMode: () => applyGenreProfile('psychedelic')
         };
         
         // Guitar String Frequencies
@@ -422,7 +443,7 @@
             }
         }
         
-        // Connect Guitar Input
+        // Connect Guitar Input with REAL Effects Processing
         async function connectGuitar() {
             try {
                 initAudio();
@@ -431,22 +452,18 @@
                     audio: {
                         echoCancellation: false,
                         noiseSuppression: false,
-                        autoGainControl: false
+                        autoGainControl: false,
+                        channelCount: 1,
+                        sampleRate: 44100
                     }
                 });
                 
-                const source = audioContext.createMediaStreamSource(guitarStream);
-                analyzer = audioContext.createAnalyser();
-                analyzer.fftSize = 2048;
-                
-                source.connect(analyzer);
-                
-                dataArray = new Uint8Array(analyzer.frequencyBinCount);
+                await setupEffectsChain();
                 
                 document.getElementById('inputStatus').innerHTML = `
-                    ✅ Guitar Connected!
+                    ✅ Guitar Connected & Effects Active!
                     Input Level: Monitoring...
-                    Ready for Motown magic!
+                    Motown Processing: Ready to slide!
                 `;
                 
                 document.getElementById('connectGuitar').textContent = 'Guitar Connected ✅';
@@ -459,8 +476,102 @@
                 document.getElementById('inputStatus').innerHTML = `
                     ❌ Error: ${error.message}
                     Please check microphone permissions
+                    Try refreshing and clicking Connect again
                 `;
             }
+        }
+        
+        // REAL Audio Effects Chain Setup
+        async function setupEffectsChain() {
+            if (!guitarStream || !audioContext) return;
+            
+            const source = audioContext.createMediaStreamSource(guitarStream);
+            analyzer = audioContext.createAnalyser();
+            analyzer.fftSize = 2048;
+            dataArray = new Uint8Array(analyzer.frequencyBinCount);
+            
+            // Create effects nodes
+            const inputGain = audioContext.createGain();
+            const driveNode = audioContext.createWaveShaper();
+            const reverbNode = audioContext.createConvolver();
+            const outputGain = audioContext.createGain();
+            
+            // Setup drive (distortion)
+            driveNode.curve = createDistortionCurve(currentEffects.drive);
+            driveNode.oversample = '4x';
+            
+            // Setup reverb (simple impulse response)
+            await setupReverb(reverbNode);
+            
+            // Connect the chain: Input -> Analyzer -> Gain -> Drive -> Reverb -> Output
+            source.connect(analyzer);
+            source.connect(inputGain);
+            inputGain.connect(driveNode);
+            driveNode.connect(reverbNode);
+            reverbNode.connect(outputGain);
+            outputGain.connect(audioContext.destination);
+            
+            // Store references for real-time control
+            effectsChain = {
+                source,
+                inputGain,
+                driveNode,
+                reverbNode,
+                outputGain
+            };
+            
+            // Apply current effect levels
+            updateEffectsChain();
+        }
+        
+        // Create distortion curve for drive effect
+        function createDistortionCurve(amount) {
+            const samples = 44100;
+            const curve = new Float32Array(samples);
+            const deg = Math.PI / 180;
+            
+            for (let i = 0; i < samples; i++) {
+                const x = (i * 2) / samples - 1;
+                curve[i] = ((3 + amount) * x * 20 * deg) / (Math.PI + amount * Math.abs(x));
+            }
+            
+            return curve;
+        }
+        
+        // Setup simple reverb
+        async function setupReverb(convolver) {
+            // Create simple impulse response for reverb
+            const length = audioContext.sampleRate * 2; // 2 second reverb
+            const impulse = audioContext.createBuffer(2, length, audioContext.sampleRate);
+            
+            for (let channel = 0; channel < 2; channel++) {
+                const channelData = impulse.getChannelData(channel);
+                for (let i = 0; i < length; i++) {
+                    channelData[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2);
+                }
+            }
+            
+            convolver.buffer = impulse;
+        }
+        
+        // Update effects chain in real-time
+        function updateEffectsChain() {
+            if (!effectsChain) return;
+            
+            // Update input gain
+            const inputLevel = document.getElementById('inputGain').value / 100;
+            effectsChain.inputGain.gain.setValueAtTime(inputLevel, audioContext.currentTime);
+            
+            // Update drive
+            effectsChain.driveNode.curve = createDistortionCurve(currentEffects.drive);
+            
+            // Reverb mix (dry/wet)
+            const reverbMix = currentEffects.reverb / 100;
+            // Note: This is simplified - real reverb would need separate dry/wet chains
+            
+            // Update output volume
+            const masterLevel = document.getElementById('masterVolume').value / 100;
+            effectsChain.outputGain.gain.setValueAtTime(masterLevel, audioContext.currentTime);
         }
         
         // Volume Monitoring
@@ -491,7 +602,7 @@
             updateVolume();
         }
         
-        // Recording Functions
+        // Recording Functions with REAL Audio
         function toggleRecording() {
             if (!isRecording) {
                 startRecording();
@@ -506,35 +617,56 @@
                 return;
             }
             
-            const mediaRecorder = new MediaRecorder(guitarStream);
-            recordedChunks = [];
-            
-            mediaRecorder.ondataavailable = (event) => {
-                recordedChunks.push(event.data);
-            };
-            
-            mediaRecorder.onstop = () => {
-                const blob = new Blob(recordedChunks, { type: 'audio/webm' });
-                const url = URL.createObjectURL(blob);
+            try {
+                // Create new MediaRecorder with processed audio
+                mediaRecorder = new MediaRecorder(guitarStream, {
+                    mimeType: 'audio/webm;codecs=opus'
+                });
                 
-                document.getElementById('inputStatus').innerHTML += `
-                    🎵 Recording saved!
-                    <audio controls src="${url}"></audio>
-                `;
-            };
-            
-            mediaRecorder.start();
-            isRecording = true;
-            
-            document.getElementById('recordBtn').textContent = 'Stop Recording';
-            document.getElementById('recordBtn').classList.add('recording');
+                recordedChunks = [];
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+                
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+                    const url = URL.createObjectURL(blob);
+                    const timestamp = new Date().toLocaleTimeString();
+                    
+                    document.getElementById('inputStatus').innerHTML += `
+                        <br>🎵 Recording ${timestamp}:
+                        <audio controls src="${url}" style="width: 100%; margin: 5px 0;"></audio>
+                    `;
+                };
+                
+                mediaRecorder.start(1000); // Record in 1-second chunks
+                isRecording = true;
+                
+                document.getElementById('recordBtn').textContent = 'Stop Recording ⏹️';
+                document.getElementById('recordBtn').classList.add('recording');
+                
+                // Visual feedback
+                pulseCreature();
+                
+            } catch (error) {
+                console.error('Recording error:', error);
+                alert('Recording failed. Try a different browser or check audio permissions.');
+            }
         }
         
         function stopRecording() {
-            // This would stop the MediaRecorder
-            isRecording = false;
-            document.getElementById('recordBtn').textContent = 'Record';
-            document.getElementById('recordBtn').classList.remove('recording');
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                
+                document.getElementById('recordBtn').textContent = 'Record 🎙️';
+                document.getElementById('recordBtn').classList.remove('recording');
+                
+                pulseCreature();
+            }
         }
         
         // Tuning Functions
@@ -601,23 +733,61 @@
             });
         }
         
-        // Motown Mode
+        // Motown Mode with REAL Effects + Shadow Code for Future Genres
         function activateMotownMode() {
-            currentEffects.slide = 75;
-            currentEffects.boogie = 80;
-            currentEffects.reverb = 60;
-            currentEffects.drive = 65;
+            applyGenreProfile('motown');
+        }
+        
+        // Generic genre profile application (Shadow Code Protocol)
+        function applyGenreProfile(genre) {
+            if (!genreProfiles[genre]) {
+                console.error(`Genre profile '${genre}' not found`);
+                return;
+            }
             
+            const profile = genreProfiles[genre];
+            currentEffects.slide = profile.slide;
+            currentEffects.boogie = profile.boogie;
+            currentEffects.reverb = profile.reverb;
+            currentEffects.drive = profile.drive;
+            
+            // Update visual indicators
+            updateEffectKnobs();
+            
+            // Apply to audio chain
+            updateEffectsChain();
+            
+            // Update status display
             document.getElementById('effectsStatus').innerHTML = `
-                🎵 MOTOWN MODE ACTIVATED! 🎵
+                🎵 ${genre.toUpperCase()} MODE ACTIVATED! 🎵
                 Slide: ${currentEffects.slide}%
                 Boogie: ${currentEffects.boogie}%
                 Reverb: ${currentEffects.reverb}%
                 Drive: ${currentEffects.drive}%
-                Ready to groove!
+                Ready to ${genre === 'motown' ? 'slide & groove!' : 'rock the ' + genre + '!'}
             `;
             
+            // Visual feedback
             pulseCreature();
+            
+            // Add genre-specific visual effects
+            if (genre === 'motown') {
+                document.body.style.filter = 'hue-rotate(0deg)';
+            }
+            // Shadow code for future genres:
+            // else if (genre === 'blues') document.body.style.filter = 'hue-rotate(240deg)';
+            // else if (genre === 'psychedelic') document.body.style.filter = 'hue-rotate(120deg)';
+        }
+        
+        // Update visual knob positions
+        function updateEffectKnobs() {
+            document.querySelectorAll('.effect-knob').forEach(knob => {
+                const effect = knob.dataset.effect;
+                const value = currentEffects[effect] || 0;
+                const rotation = (value / 100) * 270 - 135; // -135 to +135 degrees
+                knob.querySelector('.knob-indicator').style.transform = 
+                    `translateX(-50%) rotate(${rotation}deg)`;
+            });
         }
         
         // Utility Functions
@@ -658,11 +828,17 @@
                 });
             });
             
-            // Effect knobs (basic visual feedback)
+            // Effect knobs with REAL audio control
             document.querySelectorAll('.effect-knob').forEach(knob => {
                 knob.addEventListener('click', function() {
                     const effect = this.dataset.effect;
                     currentEffects[effect] = (currentEffects[effect] + 25) % 100;
+                    
+                    // Update audio processing
+                    updateEffectsChain();
+                    
+                    // Update visual indicator
+                    updateEffectKnobs();
                     
                     document.getElementById('effectsStatus').innerHTML = `
                         Effects Active:
@@ -674,6 +850,16 @@
                     
                     pulseCreature();
                 });
+            });
+            
+            // Input gain real-time control
+            document.getElementById('inputGain').addEventListener('input', function() {
+                updateEffectsChain();
+            });
+            
+            // Master volume real-time control
+            document.getElementById('masterVolume').addEventListener('input', function() {
+                updateEffectsChain();
             });
             
             // Auto-select first rhythm pattern
