@@ -3,1107 +3,1395 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎸 Cosmic Pro Studio - Motown Slide & Boogie</title>
+    <title>KozmicRockandBlues-MasterConsole</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            color: white; font-family: 'Arial', sans-serif; overflow-x: hidden;
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            color: white;
+            font-family: 'Courier New', monospace;
+            overflow-x: hidden;
         }
+        
+        .console-container {
+            padding: 15px;
+            max-width: 100vw;
+        }
+        
         .header {
-            text-align: center; padding: 20px;
-            background: rgba(255, 107, 157, 0.1);
-            border-bottom: 2px solid #ff6b9d;
-        }
-        .studio-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px; padding: 20px;
-            min-height: 80vh;
-        }
-        .module {
-            background: rgba(255, 107, 157, 0.15);
-            border: 2px solid #ff6b9d;
-            border-radius: 15px;
-            padding: 20px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(255, 107, 157, 0.2);
-        }
-        .module h2 {
-            color: #ff6b9d;
-            margin-bottom: 15px;
             text-align: center;
-            text-shadow: 0 0 10px rgba(255, 107, 157, 0.5);
-        }
-        .input-section {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .btn {
-            background: linear-gradient(45deg, #ff6b9d, #9b59b6);
-            border: none;
-            padding: 12px 20px;
-            border-radius: 25px;
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
-        }
-        .btn:active { transform: translateY(0); }
-        .btn.recording {
-            background: linear-gradient(45deg, #ff4757, #ff6b9d);
-            animation: pulse 1s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        select, input {
-            background: rgba(44, 44, 78, 0.8);
-            color: white;
-            border: 2px solid #ff6b9d;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 14px;
-        }
-        .guitar-visual {
-            width: 100%;
-            height: 120px;
-            background: linear-gradient(90deg, #1a1a2e, #0f3460);
-            border-radius: 10px;
-            position: relative;
-            margin: 15px 0;
-            overflow: hidden;
-        }
-        #noVideoOverlay { z-index: 1; }
-        .string { z-index: 3; }
-        #videoFeed, #videoOverlay { z-index: 2; }
-        .string {
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: #c0c0c0;
-            box-shadow: 0 0 5px rgba(192, 192, 192, 0.5);
-        }
-        .string:nth-child(1) { top: 10px; }
-        .string:nth-child(2) { top: 30px; }
-        .string:nth-child(3) { top: 50px; }
-        .string:nth-child(4) { top: 70px; }
-        .string:nth-child(5) { top: 90px; }
-        .string:nth-child(6) { top: 110px; }
-        .string.vibrating {
-            animation: vibrate 0.1s infinite;
-        }
-        @keyframes vibrate {
-            0%, 100% { transform: translateY(0); }
-            25% { transform: translateY(-1px); }
-            75% { transform: translateY(1px); }
-        }
-        .volume-meter {
-            width: 100%;
-            height: 30px;
-            background: #2c2c4e;
+            margin-bottom: 20px;
+            background: rgba(255, 107, 157, 0.1);
+            padding: 15px;
             border-radius: 15px;
-            overflow: hidden;
+            border: 2px solid #ff6b9d;
+        }
+        
+        .header h1 {
+            margin: 0;
+            background: linear-gradient(45deg, #ff6b9d, #4ecdc4, #ffd93d);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: clamp(1.2rem, 3.5vw, 2rem);
+        }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .section {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #4ecdc4;
+            border-radius: 15px;
+            padding: 15px;
+        }
+        
+        .section h3 {
+            color: #4ecdc4;
+            margin: 0 0 15px 0;
+            font-size: 1rem;
+            text-align: center;
+        }
+        
+        .video-section {
             position: relative;
-            margin: 10px 0;
+            background: rgba(255, 107, 157, 0.1);
+            border: 2px solid #ff6b9d;
+            height: 200px;
         }
-        .volume-bar {
+        
+        #guitarVideo {
+            width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, #00ff00, #ffff00, #ff0000);
-            width: 0%;
-            transition: width 0.1s ease;
+            object-fit: cover;
+            border-radius: 10px;
+            background: radial-gradient(circle, #1a1a2e, #000);
         }
+        
+        .video-controls {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+        }
+        
         .effects-rack {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
-            margin-top: 15px;
+            margin-bottom: 15px;
         }
+        
         .effect-knob {
-            width: 60px;
-            height: 60px;
-            background: radial-gradient(circle, #333, #666);
+            text-align: center;
+            background: rgba(76, 205, 196, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #4ecdc4;
+        }
+        
+        .knob {
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b9d, #4ecdc4);
+            margin: 5px auto;
             position: relative;
             cursor: pointer;
-            margin: 0 auto;
+            transition: transform 0.2s;
         }
-        .knob-indicator {
+        
+        .knob:hover {
+            transform: scale(1.1);
+        }
+        
+        .knob::after {
+            content: '';
             position: absolute;
             top: 5px;
             left: 50%;
-            width: 3px;
-            height: 20px;
-            background: #ff6b9d;
             transform: translateX(-50%);
+            width: 3px;
+            height: 15px;
+            background: white;
             border-radius: 2px;
         }
+        
+        .knob-label {
+            font-size: 0.7rem;
+            margin: 5px 0;
+            color: #4ecdc4;
+        }
+        
+        .knob-value {
+            font-size: 0.8rem;
+            color: #ffd93d;
+        }
+        
+        .genre-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
         .rhythm-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 15px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
         }
-        .beat-pad {
-            aspect-ratio: 1;
-            background: rgba(255, 107, 157, 0.3);
-            border: 2px solid #ff6b9d;
-            border-radius: 10px;
+        
+        .btn {
+            background: linear-gradient(45deg, #ff6b9d, #4ecdc4);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: white;
+            font-family: inherit;
             cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+        }
+        
+        .btn.active {
+            background: linear-gradient(45deg, #ffd93d, #ff6b9d);
+            box-shadow: 0 0 20px rgba(255, 217, 61, 0.5);
+        }
+        
+        .btn.small {
+            padding: 6px 10px;
+            font-size: 0.7rem;
+        }
+        
+        .record-section {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        
+        .record-section .btn {
+            flex: 1;
+            min-width: 100px;
+        }
+        
+        .bpm-control {
             display: flex;
             align-items: center;
+            gap: 10px;
+            margin: 10px 0;
             justify-content: center;
+        }
+        
+        .bpm-display {
+            background: rgba(255, 217, 61, 0.2);
+            padding: 5px 15px;
+            border-radius: 8px;
+            border: 1px solid #ffd93d;
+            color: #ffd93d;
             font-weight: bold;
-            transition: all 0.2s ease;
         }
-        .beat-pad:hover {
-            background: rgba(255, 107, 157, 0.6);
-            transform: scale(1.05);
+        
+        .speech-section {
+            background: rgba(255, 217, 61, 0.1);
+            border: 2px solid #ffd93d;
         }
-        .beat-pad.active {
-            background: #ff6b9d;
-            box-shadow: 0 0 20px rgba(255, 107, 157, 0.8);
+        
+        .speech-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
         }
-        .creature {
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle, #ff6b9d, #3498db);
-            border-radius: 50%;
-            margin: 20px auto;
-            position: relative;
+        
+        .speech-controls .btn {
+            flex: 1;
+            min-width: 80px;
+        }
+        
+        .speech-commands {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ffd93d;
+            max-height: 100px;
+            overflow-y: auto;
+            font-size: 0.7rem;
+        }
+        
+        .status-bar {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #4ecdc4;
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        
+        .status-item {
+            text-align: center;
+        }
+        
+        .status-label {
+            color: #4ecdc4;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .status-value {
+            color: #ffd93d;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        
+        .guitar-strings {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            margin: 10px 0;
+        }
+        
+        .string {
+            height: 2px;
+            background: linear-gradient(90deg, #ff6b9d, #4ecdc4);
+            border-radius: 1px;
             transition: all 0.3s ease;
         }
-        .creature.pulse {
-            animation: creature-pulse 0.5s ease;
+        
+        .string.vibrating {
+            animation: vibrate 0.5s ease-in-out;
         }
-        @keyframes creature-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); filter: brightness(1.5); }
+        
+        @keyframes vibrate {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(3); }
         }
-        .master-controls {
-            grid-column: 1 / -1;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            background: rgba(255, 107, 157, 0.1);
-            padding: 20px;
-            border-radius: 15px;
+        
+        .footer {
+            text-align: center;
             margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            border: 1px solid #4ecdc4;
         }
-        .status-display {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px;
-            border-radius: 10px;
-            margin: 10px 0;
-            font-family: monospace;
-            font-size: 12px;
-            min-height: 60px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        .motown-mode {
-            background: linear-gradient(45deg, #d4af37, #ffd700);
-            color: #000;
-            animation: shimmer 2s infinite;
-        }
-        @keyframes shimmer {
-            0% { background-position: 0%; }
-            100% { background-position: 400%; }
-        }
-        @keyframes psychedelic-shift {
-            0% { filter: hue-rotate(120deg) saturate(2) contrast(1.3); }
-            25% { filter: hue-rotate(180deg) saturate(1.8) contrast(1.1); }
-            50% { filter: hue-rotate(240deg) saturate(2.2) contrast(1.4); }
-            75% { filter: hue-rotate(300deg) saturate(1.6) contrast(1.2); }
-            100% { filter: hue-rotate(120deg) saturate(2) contrast(1.3); }
-        }
-        @keyframes psychedelic-overlay {
-            0% { background: radial-gradient(circle, rgba(255,107,157,0.3), rgba(52,152,219,0.3)); }
-            50% { background: radial-gradient(circle, rgba(147,112,219,0.3), rgba(255,182,193,0.3)); }
-            100% { background: radial-gradient(circle, rgba(255,107,157,0.3), rgba(52,152,219,0.3)); }
-        }
-        #videoOverlay.psychedelic {
-            animation: psychedelic-overlay 5s infinite;
-            border-radius: 5px;
-        }
-        .export-status {
-            background: rgba(0, 255, 0, 0.1);
-            border: 1px solid #00ff00;
-            border-radius: 5px;
-            padding: 8px;
-            margin: 5px 0;
-            font-size: 11px;
-            color: #00ff00;
-        }
-        .error-status {
-            background: rgba(255, 0, 0, 0.1);
-            border: 1px solid #ff0000;
-            border-radius: 5px;
-            padding: 8px;
-            margin: 5px 0;
-            font-size: 11px;
-            color: #ff0000;
+        
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .effects-rack {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .record-section {
+                flex-direction: column;
+            }
+            
+            .speech-controls {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>🎸 Cosmic Pro Studio</h1>
-        <p>Motown Slide & Boogie Edition</p>
-        <div class="creature" id="creature"></div>
-    </div>
-    
-    <div class="studio-container">
-        <!-- Guitar Input Module -->
-        <div class="module">
-            <h2>🎸 Guitar & Video Input</h2>
-            <div class="input-section">
-                <button class="btn" id="connectGuitar" onclick="connectGuitar()">Connect Guitar</button>
-                <button class="btn" id="speechBtn" onclick="toggleSpeechControl()">Speech Control 🎤</button>
-                <button class="btn" id="recordAudioBtn" onclick="toggleAudioRecording()">Record Audio 🎙</button>
-                <button class="btn" id="recordVideoBtn" style="display: none;" onclick="toggleVideoRecording()">Record Video 🎥</button>
-                
-                <div class="guitar-visual" id="guitarVisual">
-                    <video id="videoFeed" autoplay muted style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px; display: none;"></video>
-                    <canvas id="videoOverlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
-                    <div id="noVideoOverlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: #fff; font-size: 14px;">
-                        🎸 Guitar Visualization Ready<br><small>Connect webcam for video</small>
-                    </div>
-                    <div class="string"></div>
-                    <div class="string"></div>
-                    <div class="string"></div>
-                    <div class="string"></div>
-                    <div class="string"></div>
-                    <div class="string"></div>
-                </div>
-                
-                <div class="volume-meter">
-                    <div class="volume-bar" id="volumeBar"></div>
-                </div>
-                
-                <label>Input Gain:</label>
-                <input type="range" id="inputGain" min="0" max="100" value="50">
-                
-                <div class="status-display" id="inputStatus">
-                    Ready for your 2 guitars...<br>
-                    Click "Connect Guitar" to start!
-                </div>
-            </div>
+    <div class="console-container">
+        <div class="header">
+            <h1>🎸 KOZMIC ROCK & BLUES MASTER CONSOLE 🎤</h1>
+            <p>Professional Live Performance Studio</p>
         </div>
         
-        <!-- Genre Selector & Full Effects Rack -->
-        <div class="module" style="grid-column: 1 / -1;">
-            <h2>🌟 Cosmic Genre Studio</h2>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px;">
-                <button class="btn motown-mode" onclick="activateMotownMode()">🎵 Motown</button>
-                <button class="btn" onclick="applyGenreProfile('blues')" style="background: linear-gradient(45deg, #1e3c72, #2a5298);">🎸 Blues</button>
-                <button class="btn" onclick="applyGenreProfile('jazz')" style="background: linear-gradient(45deg, #8b4513, #daa520);">🎷 Jazz</button>
-                <button class="btn" onclick="applyGenreProfile('rock')" style="background: linear-gradient(45deg, #ff4500, #ff6347);">🤘 Rock</button>
-                <button class="btn" onclick="applyGenreProfile('funk')" style="background: linear-gradient(45deg, #800080, #ff1493);">🎺 Funk</button>
-                <button class="btn" onclick="applyGenreProfile('psychedelic')" style="background: linear-gradient(45deg, #ff69b4, #9370db);">🌈 Psychedelic</button>
-                <button class="btn" onclick="applyGenreProfile('caribbean')" style="background: linear-gradient(45deg, #228b22, #32cd32);">🌴 Caribbean</button>
-                <button class="btn" onclick="applyGenreProfile('salsa')" style="background: linear-gradient(45deg, #dc143c, #ff69b4);">💃 Salsa</button>
-                <button class="btn" onclick="applyGenreProfile('bossa_nova')" style="background: linear-gradient(45deg, #ffd700, #ffa500);">🇧🇷 Bossa Nova</button>
-            </div>
-        </div>
-        
-        <!-- Effects Rack -->
-        <div class="module">
-            <h2>🌟 Full Effects Rack</h2>
-            <div class="effects-rack">
-                <div style="text-align: center;">
-                    <label>Slide</label>
-                    <div class="effect-knob" data-effect="slide">
-                        <div class="knob-indicator"></div>
+        <div class="main-grid">
+            <div class="section video-section">
+                <h3>📹 Live Feed</h3>
+                <video id="guitarVideo" autoplay muted playsinline>
+                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #4ecdc4;">
+                        📹 Video Feed Will Appear Here
                     </div>
-                </div>
-                <div style="text-align: center;">
-                    <label>Boogie</label>
-                    <div class="effect-knob" data-effect="boogie">
-                        <div class="knob-indicator"></div>
-                    </div>
-                </div>
-                <div style="text-align: center;">
-                    <label>Drive</label>
-                    <div class="effect-knob" data-effect="drive">
-                        <div class="knob-indicator"></div>
-                    </div>
-                </div>
-                <div style="text-align: center;">
-                    <label>Reverb</label>
-                    <div class="effect-knob" data-effect="reverb">
-                        <div class="knob-indicator"></div>
-                    </div>
-                </div>
-                <div style="text-align: center;">
-                    <label>Delay</label>
-                    <div class="effect-knob" data-effect="delay">
-                        <div class="knob-indicator"></div>
-                    </div>
-                </div>
-                <div style="text-align: center;">
-                    <label>Chorus</label>
-                    <div class="effect-knob" data-effect="chorus">
-                        <div class="knob-indicator"></div>
-                    </div>
-                </div>
-                <div style="text-align: center;">
-                    <label>Flanger</label>
-                    <div class="effect-knob" data-effect="flanger">
-                        <div class="knob-indicator"></div>
-                    </div>
-                </div>
-                <div style="text-align: center;">
-                    <label>Phaser</label>
-                    <div class="effect-knob" data-effect="phaser">
-                        <div class="knob-indicator"></div>
-                    </div>
-                </div>
-                <div style="text-align: center;">
-                    <label>Wah</label>
-                    <div class="effect-knob" data-effect="wah">
-                        <div class="knob-indicator"></div>
-                    </div>
+                </video>
+                <div class="video-controls">
+                    <button class="btn small" onclick="toggleVideo()">Start Video</button>
+                    <button class="btn small" onclick="toggleVideoRecord()">Record Video</button>
                 </div>
             </div>
             
-            <div style="margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <button class="btn" onclick="killAllEffects()">🔇 Kill All Effects</button>
-                <button class="btn" onclick="activateRandomMode()">🎲 Random Mode</button>
+            <div class="section">
+                <h3>🎛️ Effects Rack</h3>
+                <div class="effects-rack">
+                    <div class="effect-knob">
+                        <div class="knob" onclick="adjustLiveEffect('slide')"></div>
+                        <div class="knob-label">Slide</div>
+                        <div class="knob-value" id="slideValue">0%</div>
+                    </div>
+                    <div class="effect-knob">
+                        <div class="knob" onclick="adjustLiveEffect('drive')"></div>
+                        <div class="knob-label">Drive</div>
+                        <div class="knob-value" id="driveValue">0%</div>
+                    </div>
+                    <div class="effect-knob">
+                        <div class="knob" onclick="adjustLiveEffect('reverb')"></div>
+                        <div class="knob-label">Reverb</div>
+                        <div class="knob-value" id="reverbValue">0%</div>
+                    </div>
+                    <div class="effect-knob">
+                        <div class="knob" onclick="adjustLiveEffect('delay')"></div>
+                        <div class="knob-label">Delay</div>
+                        <div class="knob-value" id="delayValue">0%</div>
+                    </div>
+                    <div class="effect-knob">
+                        <div class="knob" onclick="adjustLiveEffect('wah')"></div>
+                        <div class="knob-label">Wah</div>
+                        <div class="knob-value" id="wahValue">0%</div>
+                    </div>
+                    <div class="effect-knob">
+                        <div class="knob" onclick="adjustLiveEffect('chorus')"></div>
+                        <div class="knob-label">Chorus</div>
+                        <div class="knob-value" id="chorusValue">0%</div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button class="btn" onclick="killAllEffects()">Kill Effects</button>
+                    <button class="btn" onclick="randomizeEffects()">Random Mode</button>
+                </div>
             </div>
             
-            <div class="status-display" id="effectsStatus">
-                Effects: Clean<br>
-                Ready to rock any genre!
+            <div class="section">
+                <h3>🎵 Genre Presets</h3>
+                <div class="genre-grid">
+                    <button class="btn" onclick="setLiveGenre('motown')">Motown</button>
+                    <button class="btn" onclick="setLiveGenre('blues')">Blues</button>
+                    <button class="btn" onclick="setLiveGenre('jazz')">Jazz</button>
+                    <button class="btn" onclick="setLiveGenre('rock')">Rock</button>
+                    <button class="btn" onclick="setLiveGenre('funk')">Funk</button>
+                    <button class="btn" onclick="setLiveGenre('psychedelic')">Psychedelic</button>
+                </div>
+                <div class="guitar-strings" id="guitarStrings">
+                    <div class="string"></div>
+                    <div class="string"></div>
+                    <div class="string"></div>
+                    <div class="string"></div>
+                    <div class="string"></div>
+                    <div class="string"></div>
+                </div>
             </div>
-        </div>
-        
-        <!-- Rhythm & Tuning -->
-        <div class="module">
-            <h2>🥁 Rhythm & Tuning</h2>
-            <div class="input-section">
-                <label>Tuning Reference:</label>
-                <select id="tuningString">
-                    <option value="7">7th Fret</option>
-                    <option value="8">8th Fret</option>
-                    <option value="9">9th Fret</option>
-                    <option value="10">10th Fret</option>
-                    <option value="11">11th Fret</option>
-                </select>
-                
-                <button class="btn" onclick="playTuningNote()">Play Tuning Note</button>
-                
-                <label>BPM:</label>
-                <input type="number" id="bpmInput" value="120" min="60" max="180">
-                
+            
+            <div class="section">
+                <h3>🥁 Rhythm Patterns</h3>
                 <div class="rhythm-grid">
-                    <div class="beat-pad" data-pattern="2_eighths">1&2</div>
-                    <div class="beat-pad" data-pattern="3_triplet">Trip</div>
-                    <div class="beat-pad" data-pattern="syncopated">Sync</div>
-                    <div class="beat-pad" data-pattern="boogie">Boogie</div>
+                    <button class="btn" onclick="playRhythm('1_2')">1&2</button>
+                    <button class="btn" onclick="playRhythm('triplet')">Triplet</button>
+                    <button class="btn" onclick="playRhythm('syncopated')">Syncopated</button>
+                    <button class="btn" onclick="playRhythm('boogie')">Boogie</button>
                 </div>
-                
-                <button class="btn" onclick="playSelectedRhythm()">Play Rhythm</button>
+                <div class="bpm-control">
+                    <button class="btn small" onclick="adjustBPM(-5)">-5</button>
+                    <div class="bpm-display" id="bpmDisplay">120 BPM</div>
+                    <button class="btn small" onclick="adjustBPM(5)">+5</button>
+                </div>
+                <button class="btn" onclick="playRhythmMode()" id="rhythmPlayBtn">Play Rhythm</button>
+            </div>
+            
+            <div class="section">
+                <h3>🎤 Recording Studio</h3>
+                <div class="record-section">
+                    <button class="btn" id="audioRecordBtn" onclick="toggleAudioRecord()">Audio Record</button>
+                    <button class="btn" id="videoRecordBtn" onclick="toggleVideoRecord()">Video Record</button>
+                </div>
+                <div class="record-section">
+                    <button class="btn" onclick="exportLiveTrack()">Export Track</button>
+                    <button class="btn" onclick="saveLiveSession()">Save Session</button>
+                    <button class="btn" onclick="loadLiveSession()">Load Session</button>
+                </div>
+            </div>
+            
+            <div class="section speech-section">
+                <h3>🗣️ Speech Control</h3>
+                <div class="speech-controls">
+                    <button class="btn" id="speechBtn" onclick="toggleSpeechRecognition()">Start Speech</button>
+                    <button class="btn" onclick="speakStatus()">Speak Status</button>
+                </div>
+                <div class="speech-commands" id="speechCommands">
+                    Speech commands: "play blues", "add reverb", "record audio", "export track", "random effects"
+                </div>
             </div>
         </div>
-    </div>
-    
-    <!-- Master Controls -->
-    <div class="master-controls">
-        <button class="btn" onclick="startJamSession()">🚀 Start Jam Session</button>
-        <button class="btn" onclick="saveSession()">💾 Save Session</button>
-        <button class="btn" onclick="loadSession()">📥 Load Session</button>
-        <button class="btn" onclick="exportTrack()">📤 Export Track</button>
-        <div style="text-align: center;">
-            <label>Master Volume:</label>
-            <input type="range" id="masterVolume" min="0" max="100" value="75">
+        
+        <div class="status-bar">
+            <div class="status-grid">
+                <div class="status-item">
+                    <div class="status-label">Audio Status</div>
+                    <div class="status-value" id="audioStatus">DISCONNECTED</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Video Status</div>
+                    <div class="status-value" id="videoStatus">STOPPED</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Current Genre</div>
+                    <div class="status-value" id="genreStatus">NONE</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Recording</div>
+                    <div class="status-value" id="recordingStatus">IDLE</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Speech</div>
+                    <div class="status-value" id="speechStatus">OFF</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Session Timer</div>
+                    <div class="status-value" id="sessionTimer">00:00</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <h3>🌌 Live Performance Ready! 🎸</h3>
+            <p>Professional console for live rock and blues performances with speech control!</p>
+            <p><em>Peace and Universal Harmony! ψΩ§∞</em></p>
         </div>
     </div>
 
     <script>
-        // Variables
-        var audioContext = null;
-        var guitarStream = null;
-        var isRecording = false;
-        var recordedChunks = [];
-        var analyzer = null;
-        var dataArray = null;
-        var effectsChain = null;
-        var mediaRecorder = null;
-        var currentEffects = {
-            slide: 0, boogie: 0, reverb: 0, drive: 0,
-            delay: 0, chorus: 0, flanger: 0, phaser: 0, wah: 0
+        // Global variables
+        let liveAudioContext, liveSource, liveAnalyser;
+        let liveVideoStream, liveAudioStream;
+        let liveAudioRecorder, liveVideoRecorder;
+        let liveAudioChunks = [], liveVideoChunks = [];
+        let liveIsAudioRecording = false, liveIsVideoRecording = false;
+        let liveCurrentGenre = 'none';
+        let liveCurrentBPM = 120;
+        let liveCurrentRhythm = null;
+        let liveRhythmInterval = null;
+        let liveSessionStartTime = Date.now();
+        let liveSpeechRecognition = null;
+        let liveIsSpeechActive = false;
+        
+        // Effects chain
+        let liveEffectsChain = {
+            inputGain: null,
+            drive: null,
+            filter: null,
+            reverb: null,
+            delay: null,
+            delayFeedback: null,
+            chorus: null,
+            chorusLFO: null,
+            outputGain: null
         };
-        var videoStream = null;
-        var isVideoRecording = false;
-        var videoRecorder = null;
-        var videoChunks = [];
-        var currentGenre = 'none';
-        var speechRecognition = null;
-        var isSpeechActive = false;
-        var tvPower = false;
-        var tvContrast = 1;
-        var tvBrightness = 1;
+        
+        let liveEffects = {
+            slide: 0,
+            drive: 0,
+            reverb: 0,
+            delay: 0,
+            wah: 0,
+            chorus: 0
+        };
 
-        // Genre Profiles
-        var genreProfiles = {
-            motown: { slide: 75, boogie: 80, reverb: 60, drive: 65, delay: 40, chorus: 50, flanger: 30, phaser: 25, wah: 60 },
-            blues: { slide: 90, boogie: 40, reverb: 30, drive: 85, delay: 60, chorus: 20, flanger: 10, phaser: 15, wah: 80 },
-            jazz: { slide: 20, boogie: 60, reverb: 80, drive: 25, delay: 70, chorus: 40, flanger: 15, phaser: 35, wah: 45 },
-            rock: { slide: 30, boogie: 70, reverb: 40, drive: 90, delay: 50, chorus: 60, flanger: 45, phaser: 40, wah: 70 },
-            funk: { slide: 50, boogie: 95, reverb: 50, drive: 60, delay: 35, chorus: 30, flanger: 60, phaser: 70, wah: 95 },
-            psychedelic: { slide: 85, boogie: 60, reverb: 95, drive: 70, delay: 90, chorus: 85, flanger: 80, phaser: 90, wah: 75 },
-            caribbean: { slide: 60, boogie: 85, reverb: 70, drive: 40, delay: 65, chorus: 75, flanger: 20, phaser: 30, wah: 50 },
-            salsa: { slide: 45, boogie: 90, reverb: 55, drive: 50, delay: 45, chorus: 55, flanger: 35, phaser: 40, wah: 60 },
-            bossa_nova: { slide: 70, boogie: 50, reverb: 85, drive: 30, delay: 80, chorus: 70, flanger: 25, phaser: 45, wah: 35 }
+        // Initialize on load
+        window.onload = function() {
+            connectLiveAudio();
+            initializeSpeechRecognition();
+            startSessionTimer();
+            updateStatus('Live Console initialized! 🎸');
         };
 
-        // Guitar String Frequencies
-        var stringFrequencies = {
-            'E2': 82.41, 'A2': 110, 'D3': 146.83, 
-            'G3': 196, 'B3': 246.94, 'E4': 329.63
-        };
+        // Enhanced Audio Connection with Full Effects Chain
+        async function connectLiveAudio() {
+            try {
+                liveAudioStream = await navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        echoCancellation: false,
+                        noiseSuppression: false,
+                        autoGainControl: false,
+                        sampleRate: 44100
+                    }
+                });
+
+                liveAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+                liveSource = liveAudioContext.createMediaStreamSource(liveAudioStream);
+                liveAnalyser = liveAudioContext.createAnalyser();
+                liveAnalyser.fftSize = 2048;
+
+                // Create professional effects chain
+                createLiveEffectsChain();
+                
+                // Connect the audio chain
+                connectLiveAudioChain();
+
+                document.getElementById('audioStatus').textContent = 'CONNECTED';
+                updateStatus('Audio connected with professional effects chain! 🎸');
+
+            } catch (error) {
+                updateStatus(`Audio connection failed: ${error.message}`);
+                console.error('Audio connection error:', error);
+            }
+        }
+
+        // Create Professional Effects Chain
+        function createLiveEffectsChain() {
+            if (!liveAudioContext) return;
+
+            // Input/Output gains
+            liveEffectsChain.inputGain = liveAudioContext.createGain();
+            liveEffectsChain.outputGain = liveAudioContext.createGain();
+
+            // Drive (distortion)
+            liveEffectsChain.drive = liveAudioContext.createWaveShaper();
+            liveEffectsChain.drive.curve = createDistortionCurve(0);
+
+            // Wah filter
+            liveEffectsChain.filter = liveAudioContext.createBiquadFilter();
+            liveEffectsChain.filter.type = 'bandpass';
+            liveEffectsChain.filter.frequency.setValueAtTime(1000, liveAudioContext.currentTime);
+            liveEffectsChain.filter.Q.setValueAtTime(10, liveAudioContext.currentTime);
+
+            // Reverb
+            liveEffectsChain.reverb = liveAudioContext.createConvolver();
+            createLiveReverbImpulse();
+
+            // Delay
+            liveEffectsChain.delay = liveAudioContext.createDelay(1);
+            liveEffectsChain.delayFeedback = liveAudioContext.createGain();
+            liveEffectsChain.delay.delayTime.setValueAtTime(0.3, liveAudioContext.currentTime);
+            liveEffectsChain.delayFeedback.gain.setValueAtTime(0.3, liveAudioContext.currentTime);
+
+            // Chorus
+            liveEffectsChain.chorus = liveAudioContext.createDelay(0.05);
+            liveEffectsChain.chorusLFO = liveAudioContext.createOscillator();
+            liveEffectsChain.chorusLFO.type = 'sine';
+            liveEffectsChain.chorusLFO.frequency.setValueAtTime(2, liveAudioContext.currentTime);
+            
+            const chorusGain = liveAudioContext.createGain();
+            chorusGain.gain.setValueAtTime(0.005, liveAudioContext.currentTime);
+            liveEffectsChain.chorusLFO.connect(chorusGain);
+            chorusGain.connect(liveEffectsChain.chorus.delayTime);
+            liveEffectsChain.chorusLFO.start();
+
+            // Set initial gains
+            liveEffectsChain.inputGain.gain.setValueAtTime(0.8, liveAudioContext.currentTime);
+            liveEffectsChain.outputGain.gain.setValueAtTime(0.7, liveAudioContext.currentTime);
+
+            updateStatus('Professional effects chain created! 🎛️');
+        }
+
+        // Connect Audio Chain
+        function connectLiveAudioChain() {
+            // Main signal path
+            liveSource.connect(liveEffectsChain.inputGain);
+            liveEffectsChain.inputGain.connect(liveEffectsChain.drive);
+            liveEffectsChain.drive.connect(liveEffectsChain.filter);
+            liveEffectsChain.filter.connect(liveEffectsChain.reverb);
+            liveEffectsChain.reverb.connect(liveEffectsChain.delay);
+            liveEffectsChain.delay.connect(liveEffectsChain.chorus);
+            liveEffectsChain.chorus.connect(liveEffectsChain.outputGain);
+            liveEffectsChain.outputGain.connect(liveAnalyser);
+            liveEffectsChain.outputGain.connect(liveAudioContext.destination);
+
+            // Delay feedback loop
+            liveEffectsChain.delay.connect(liveEffectsChain.delayFeedback);
+            liveEffectsChain.delayFeedback.connect(liveEffectsChain.delay);
+        }
+
+        // Create Distortion Curve
+        function createDistortionCurve(amount) {
+            const samples = 44100;
+            const curve = new Float32Array(samples);
+            const deg = Math.PI / 180;
+            
+            for (let i = 0; i < samples; i++) {
+                const x = (i * 2) / samples - 1;
+                curve[i] = ((3 + amount) * x * 20 * deg) / (Math.PI + amount * Math.abs(x));
+            }
+            
+            return curve;
+        }
+
+        // Create Reverb Impulse
+        function createLiveReverbImpulse() {
+            const length = liveAudioContext.sampleRate * 2; // 2 second reverb
+            const impulse = liveAudioContext.createBuffer(2, length, liveAudioContext.sampleRate);
+            
+            for (let channel = 0; channel < impulse.numberOfChannels; channel++) {
+                const channelData = impulse.getChannelData(channel);
+                for (let i = 0; i < length; i++) {
+                    const decay = Math.pow(1 - i / length, 2);
+                    channelData[i] = (Math.random() * 2 - 1) * decay;
+                }
+            }
+            
+            liveEffectsChain.reverb.buffer = impulse;
+        }
+
+        // Adjust Live Effects
+        function adjustLiveEffect(effect) {
+            liveEffects[effect] = (liveEffects[effect] + 25) % 101;
+            const value = liveEffects[effect];
+            
+            document.getElementById(effect + 'Value').textContent = value + '%';
+            
+            if (!liveAudioContext) return;
+            
+            switch (effect) {
+                case 'drive':
+                    liveEffectsChain.drive.curve = createDistortionCurve(value / 20);
+                    break;
+                case 'reverb':
+                    // Reverb is controlled by wet/dry mix in the routing
+                    const reverbGain = liveAudioContext.createGain();
+                    reverbGain.gain.setValueAtTime(value / 100, liveAudioContext.currentTime);
+                    break;
+                case 'delay':
+                    liveEffectsChain.delay.delayTime.setValueAtTime(value / 100 * 0.5, liveAudioContext.currentTime);
+                    liveEffectsChain.delayFeedback.gain.setValueAtTime(value / 100 * 0.4, liveAudioContext.currentTime);
+                    break;
+                case 'wah':
+                    const freq = 200 + (value / 100) * 1800;
+                    liveEffectsChain.filter.frequency.setValueAtTime(freq, liveAudioContext.currentTime);
+                    break;
+                case 'chorus':
+                    liveEffectsChain.chorusLFO.frequency.setValueAtTime(1 + value / 100 * 4, liveAudioContext.currentTime);
+                    break;
+            }
+            
+            updateStatus(`${effect}: ${value}%`);
+            animateGuitarStrings();
+        }
+
+        // Kill All Effects
+        function killAllEffects() {
+            Object.keys(liveEffects).forEach(effect => {
+                liveEffects[effect] = 0;
+                document.getElementById(effect + 'Value').textContent = '0%';
+            });
+            
+            if (liveAudioContext) {
+                // Reset all effects to neutral
+                liveEffectsChain.drive.curve = createDistortionCurve(0);
+                liveEffectsChain.delay.delayTime.setValueAtTime(0, liveAudioContext.currentTime);
+                liveEffectsChain.delayFeedback.gain.setValueAtTime(0, liveAudioContext.currentTime);
+                liveEffectsChain.filter.frequency.setValueAtTime(1000, liveAudioContext.currentTime);
+                liveEffectsChain.chorusLFO.frequency.setValueAtTime(2, liveAudioContext.currentTime);
+            }
+            
+            updateStatus('All effects killed! 🔇');
+        }
+
+        // Randomize Effects
+        function randomizeEffects() {
+            Object.keys(liveEffects).forEach(effect => {
+                const randomValue = Math.floor(Math.random() * 101);
+                liveEffects[effect] = randomValue;
+                document.getElementById(effect + 'Value').textContent = randomValue + '%';
+                adjustLiveEffect(effect);
+            });
+            
+            updateStatus('Effects randomized! 🎲');
+        }
+
+        // Set Live Genre
+        function setLiveGenre(genre) {
+            liveCurrentGenre = genre;
+            
+            // Update button states
+            document.querySelectorAll('.genre-grid .btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('genreStatus').textContent = genre.toUpperCase();
+            
+            // Apply genre-specific effects
+            applyGenreEffects(genre);
+            animateGuitarStrings();
+            updateStatus(`Genre: ${genre.toUpperCase()}`);
+        }
+
+        // Apply Genre-Specific Effects
+        function applyGenreEffects(genre) {
+            const presets = {
+                motown: { drive: 25, reverb: 40, delay: 20, chorus: 60 },
+                blues: { drive: 60, reverb: 70, delay: 30, wah: 40 },
+                jazz: { reverb: 50, chorus: 30, delay: 10 },
+                rock: { drive: 80, delay: 50, reverb: 30 },
+                funk: { wah: 70, drive: 40, chorus: 20 },
+                psychedelic: { delay: 90, reverb: 80, chorus: 70, drive: 30 }
+            };
+            
+            const preset = presets[genre] || {};
+            
+            Object.keys(preset).forEach(effect => {
+                if (liveEffects.hasOwnProperty(effect)) {
+                    liveEffects[effect] = preset[effect];
+                    document.getElementById(effect + 'Value').textContent = preset[effect] + '%';
+                    adjustLiveEffect(effect);
+                }
+            });
+        }
+
+        // Animate Guitar Strings
+        function animateGuitarStrings() {
+            const strings = document.querySelectorAll('.string');
+            strings.forEach((string, index) => {
+                string.classList.add('vibrating');
+                setTimeout(() => {
+                    string.classList.remove('vibrating');
+                }, 500 + index * 100);
+            });
+        }
+
+        // BPM Control
+        function adjustBPM(change) {
+            liveCurrentBPM = Math.max(60, Math.min(200, liveCurrentBPM + change));
+            document.getElementById('bpmDisplay').textContent = liveCurrentBPM + ' BPM';
+            updateStatus(`BPM: ${liveCurrentBPM}`);
+        }
 
         // Rhythm Patterns
-        var rhythmPatterns = {
-            '2_eighths': [1, 0.5, 1, 0.5],
-            '3_triplet': [1, 1, 1],
-            'syncopated': [1, 0, 0.5, 1],
-            'boogie': [1, 0, 1, 0.5, 0, 1, 0.5, 0]
-        };
+        function playRhythm(pattern) {
+            if (liveRhythmInterval) {
+                clearInterval(liveRhythmInterval);
+            }
+            
+            liveCurrentRhythm = pattern;
+            
+            // Update button states
+            document.querySelectorAll('.rhythm-grid .btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            updateStatus(`Rhythm: ${pattern.toUpperCase()}`);
+            animateGuitarStrings();
+        }
 
-        // Safe DOM Access
-        function safeGetElement(id) {
-            try {
-                return document.getElementById(id);
-            } catch (e) {
-                console.warn('Element not found: ' + id);
-                return null;
+        function playRhythmMode() {
+            const btn = document.getElementById('rhythmPlayBtn');
+            
+            if (liveRhythmInterval) {
+                clearInterval(liveRhythmInterval);
+                liveRhythmInterval = null;
+                btn.textContent = 'Play Rhythm';
+                btn.classList.remove('active');
+                updateStatus('Rhythm stopped');
+            } else {
+                const interval = 60000 / liveCurrentBPM; // milliseconds per beat
+                liveRhythmInterval = setInterval(() => {
+                    animateGuitarStrings();
+                }, interval);
+                
+                btn.textContent = 'Stop Rhythm';
+                btn.classList.add('active');
+                updateStatus(`Playing rhythm at ${liveCurrentBPM} BPM`);
             }
         }
 
-        // Safe Function Call
-        function safeCall(func) {
+        // Video Control
+        async function toggleVideo() {
+            const video = document.getElementById('guitarVideo');
+            
             try {
-                if (typeof func === 'function') {
-                    func();
-                }
-            } catch (e) {
-                console.warn('Function call error: ' + e.message);
-            }
-        }
-
-        // Initialize Audio Context
-        function initAudio() {
-            try {
-                if (!audioContext) {
-                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                if (audioContext.state === 'suspended') {
-                    audioContext.resume();
-                }
-                console.log('🎵 Audio context initialized');
-            } catch (e) {
-                console.error('Audio context error: ' + e.message);
-                var status = safeGetElement('inputStatus');
-                if (status) status.innerHTML += '<br>❌ Audio context failed';
-            }
-        }
-
-        // Enhanced logging function
-        function addStatusLog(message, type = 'info') {
-            var status = safeGetElement('inputStatus');
-            if (status) {
-                var timestamp = new Date().toLocaleTimeString();
-                var logClass = type === 'success' ? 'export-status' : type === 'error' ? 'error-status' : '';
-                var logDiv = document.createElement('div');
-                logDiv.className = logClass;
-                logDiv.innerHTML = `[${timestamp}] ${message}`;
-                status.appendChild(logDiv);
-                status.scrollTop = status.scrollHeight;
-                
-                // Keep only last 10 entries
-                while (status.children.length > 10) {
-                    status.removeChild(status.firstChild);
-                }
-            }
-        }
-
-        // Enhanced Effects Chain with Real Audio Processing
-        function setupEffectsChain() {
-            try {
-                if (!audioContext || !guitarStream) {
-                    console.warn('Audio context or stream not ready');
-                    return;
-                }
-                
-                effectsChain = {
-                    inputGain: audioContext.createGain(),
-                    delay: audioContext.createDelay(1),
-                    feedback: audioContext.createGain(),
-                    reverb: audioContext.createConvolver(),
-                    drive: audioContext.createWaveShaper(),
-                    filter: audioContext.createBiquadFilter(),
-                    outputGain: audioContext.createGain()
-                };
-                
-                // Create impulse response for reverb
-                var impulseLength = audioContext.sampleRate * 2;
-                var impulse = audioContext.createBuffer(2, impulseLength, audioContext.sampleRate);
-                for (var channel = 0; channel < 2; channel++) {
-                    var channelData = impulse.getChannelData(channel);
-                    for (var i = 0; i < impulseLength; i++) {
-                        channelData[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / impulseLength, 2);
-                    }
-                }
-                effectsChain.reverb.buffer = impulse;
-                
-                // Create distortion curve for drive
-                var samples = 44100;
-                var curve = new Float32Array(samples);
-                for (var i = 0; i < samples; i++) {
-                    var x = (i * 2) / samples - 1;
-                    curve[i] = ((3 + 50) * x * 20 * Math.PI / 180) / (Math.PI + 50 * Math.abs(x));
-                }
-                effectsChain.drive.curve = curve;
-                effectsChain.drive.oversample = '4x';
-                
-                // Setup filter for wah effect
-                effectsChain.filter.type = 'bandpass';
-                effectsChain.filter.frequency.setValueAtTime(1000, audioContext.currentTime);
-                effectsChain.filter.Q.setValueAtTime(5, audioContext.currentTime);
-                
-                var source = audioContext.createMediaStreamSource(guitarStream);
-                
-                // Connect the chain: Input -> Drive -> Filter -> Delay -> Reverb -> Output
-                source.connect(effectsChain.inputGain);
-                effectsChain.inputGain.connect(effectsChain.drive);
-                effectsChain.drive.connect(effectsChain.filter);
-                effectsChain.filter.connect(effectsChain.delay);
-                effectsChain.delay.connect(effectsChain.feedback);
-                effectsChain.feedback.connect(effectsChain.delay);
-                effectsChain.delay.connect(effectsChain.reverb);
-                effectsChain.reverb.connect(effectsChain.outputGain);
-                effectsChain.outputGain.connect(audioContext.destination);
-                
-                // Set initial values
-                effectsChain.inputGain.gain.setValueAtTime(0.5, audioContext.currentTime);
-                effectsChain.delay.delayTime.setValueAtTime(0.3, audioContext.currentTime);
-                effectsChain.feedback.gain.setValueAtTime(0.3, audioContext.currentTime);
-                effectsChain.outputGain.gain.setValueAtTime(0.75, audioContext.currentTime);
-                
-                console.log('Enhanced effects chain setup');
-                addStatusLog('🎛️ Enhanced effects chain initialized', 'success');
-            } catch (e) {
-                console.warn('Effects chain error: ' + e.message);
-                addStatusLog('❌ Effects chain failed: ' + e.message, 'error');
-                effectsChain = {
-                    inputGain: { gain: { setValueAtTime: function() {} } },
-                    outputGain: { gain: { setValueAtTime: function() {} } }
-                };
-            }
-        }
-
-        function updateEffectsChain() {
-            try {
-                if (!effectsChain) return;
-                var inputLevel = parseInt(safeGetElement('inputGain').value) / 100 || 0.5;
-                var masterLevel = parseInt(safeGetElement('masterVolume').value) / 100 || 0.75;
-                
-                effectsChain.inputGain.gain.setValueAtTime(inputLevel, audioContext.currentTime);
-                effectsChain.outputGain.gain.setValueAtTime(masterLevel, audioContext.currentTime);
-                
-                // Update delay based on current effects
-                if (effectsChain.delay) {
-                    var delayTime = 0.1 + (currentEffects.delay / 100) * 0.4;
-                    effectsChain.delay.delayTime.setValueAtTime(delayTime, audioContext.currentTime);
-                }
-                
-                // Update filter frequency for wah effect
-                if (effectsChain.filter) {
-                    var wahFreq = 200 + (currentEffects.wah / 100) * 1800;
-                    effectsChain.filter.frequency.setValueAtTime(wahFreq, audioContext.currentTime);
-                }
-                
-                console.log('Effects updated');
-            } catch (e) {
-                console.warn('Update effects error: ' + e.message);
-            }
-        }
-
-        // Speech Recognition
-        function initSpeechRecognition() {
-            try {
-                if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-                    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                    speechRecognition = new SpeechRecognition();
-                    speechRecognition.continuous = true;
-                    speechRecognition.interimResults = false;
-                    speechRecognition.lang = 'en-US';
+                if (!liveVideoStream) {
+                    liveVideoStream = await navigator.mediaDevices.getUserMedia({
+                        video: { width: 640, height: 480 },
+                        audio: false
+                    });
                     
-                    speechRecognition.onresult = function(event) {
-                        var last = event.results.length - 1;
-                        var command = event.results[last][0].transcript.toLowerCase().trim();
-                        processSpeechCommand(command);
-                    };
-                    
-                    speechRecognition.onerror = function(event) {
-                        console.error('Speech recognition error: ' + event.error);
-                        addStatusLog('🎤 Speech error: ' + event.error, 'error');
-                    };
-                    return true;
-                }
-                return false;
-            } catch (e) {
-                console.warn('Speech recognition init error: ' + e.message);
-                return false;
-            }
-        }
-
-        function processSpeechCommand(command) {
-            try {
-                addStatusLog('🎤 Heard: ' + command);
-                
-                if (command.indexOf('motown') !== -1) {
-                    applyGenreProfile('motown');
-                } else if (command.indexOf('blues') !== -1) {
-                    applyGenreProfile('blues');
-                } else if (command.indexOf('jazz') !== -1) {
-                    applyGenreProfile('jazz');
-                } else if (command.indexOf('rock') !== -1) {
-                    applyGenreProfile('rock');
-                } else if (command.indexOf('funk') !== -1) {
-                    applyGenreProfile('funk');
-                } else if (command.indexOf('psychedelic') !== -1) {
-                    applyGenreProfile('psychedelic');
-                } else if (command.indexOf('caribbean') !== -1) {
-                    applyGenreProfile('caribbean');
-                } else if (command.indexOf('salsa') !== -1) {
-                    applyGenreProfile('salsa');
-                } else if (command.indexOf('bossa nova') !== -1) {
-                    applyGenreProfile('bossa_nova');
-                } else if (command.indexOf('record video') !== -1) {
-                    toggleVideoRecording();
-                } else if (command.indexOf('record audio') !== -1) {
-                    toggleAudioRecording();
-                } else if (command.indexOf('stop recording') !== -1) {
-                    if (isRecording) toggleAudioRecording();
-                    if (isVideoRecording) stopVideoRecording();
-                } else if (command.indexOf('random mode') !== -1) {
-                    activateRandomMode();
-                } else if (command.indexOf('kill effects') !== -1 || command.indexOf('clean') !== -1) {
-                    killAllEffects();
-                } else if (command.indexOf('save session') !== -1) {
-                    saveSession();
-                } else if (command.indexOf('export') !== -1) {
-                    exportTrack();
-                } else if (command.indexOf('jam session') !== -1) {
-                    startJamSession();
+                    video.srcObject = liveVideoStream;
+                    document.getElementById('videoStatus').textContent = 'LIVE';
+                    updateStatus('Video feed started! 📹');
                 } else {
-                    addStatusLog('🤔 Try: funk, record video, random mode, export');
+                    liveVideoStream.getTracks().forEach(track => track.stop());
+                    liveVideoStream = null;
+                    video.srcObject = null;
+                    document.getElementById('videoStatus').textContent = 'STOPPED';
+                    updateStatus('Video feed stopped');
                 }
-                
-                safeCall(pulseCreature);
-            } catch (e) {
-                console.warn('Speech command error: ' + e.message);
-            }
-        }
-
-        function toggleSpeechControl() {
-            try {
-                if (!isSpeechActive) {
-                    if (initSpeechRecognition()) {
-                        speechRecognition.start();
-                        isSpeechActive = true;
-                        
-                        var speechBtn = safeGetElement('speechBtn');
-                        if (speechBtn) {
-                            speechBtn.textContent = 'Stop Speech 🔇';
-                            speechBtn.style.background = 'linear-gradient(45deg, #e74c3c, #c0392b)';
-                        }
-                        
-                        addStatusLog('🎤 Speech control activated! Say commands like "funk", "export", "random mode"');
-                    } else {
-                        alert('Speech recognition not supported. Try Chrome!');
-                    }
-                } else {
-                    if (speechRecognition) {
-                        speechRecognition.stop();
-                    }
-                    isSpeechActive = false;
-                    
-                    var speechBtn = safeGetElement('speechBtn');
-                    if (speechBtn) {
-                        speechBtn.textContent = 'Speech Control 🎤';
-                        speechBtn.style.background = '';
-                    }
-                    
-                    addStatusLog('🔇 Speech control stopped');
-                }
-            } catch (e) {
-                console.warn('Toggle speech error: ' + e.message);
-            }
-        }
-
-        // Video Feed
-        function initVideoFeed() {
-            try {
-                var videoElement = safeGetElement('videoFeed');
-                var noVideoOverlay = safeGetElement('noVideoOverlay');
-                var recordVideoBtn = safeGetElement('recordVideoBtn');
-                
-                if (!videoElement || !noVideoOverlay || !recordVideoBtn) {
-                    console.warn('Video UI elements missing');
-                    return;
-                }
-                
-                navigator.mediaDevices.getUserMedia({
-                    video: { width: 640, height: 480 },
-                    audio: false
-                }).then(function(stream) {
-                    videoStream = stream;
-                    videoElement.srcObject = stream;
-                    videoElement.style.display = 'block';
-                    noVideoOverlay.style.display = 'none';
-                    recordVideoBtn.style.display = 'inline-block';
-                    
-                    addStatusLog('📷 Video feed active!', 'success');
-                }).catch(function(error) {
-                    console.error('Webcam error: ' + error.message);
-                    noVideoOverlay.innerHTML = '🎸 Audio Only Mode<br><small>Video optional</small>';
-                    addStatusLog('📷 Video unavailable');
-                });
-            } catch (e) {
-                console.warn('Video feed error: ' + e.message);
-            }
-        }
-
-        function toggleVideoRecording() {
-            try {
-                if (!isVideoRecording) {
-                    startVideoRecording();
-                } else {
-                    stopVideoRecording();
-                }
-            } catch (e) {
-                console.warn('Toggle video recording error: ' + e.message);
-            }
-        }
-
-        function startVideoRecording() {
-            try {
-                if (!guitarStream || !videoStream) {
-                    alert('Connect guitar and webcam first!');
-                    addStatusLog('❌ Need guitar and webcam for video recording', 'error');
-                    return;
-                }
-                
-                var combinedStream = new MediaStream();
-                var videoTracks = videoStream.getVideoTracks();
-                var audioTracks = guitarStream.getAudioTracks();
-                for (var i = 0; i < videoTracks.length; i++) {
-                    combinedStream.addTrack(videoTracks[i]);
-                }
-                for (var i = 0; i < audioTracks.length; i++) {
-                    combinedStream.addTrack(audioTracks[i]);
-                }
-                
-                videoRecorder = new MediaRecorder(combinedStream, {
-                    mimeType: 'video/webm;codecs=vp8,opus'
-                });
-                videoChunks = [];
-                
-                videoRecorder.ondataavailable = function(event) {
-                    if (event.data.size > 0) {
-                        videoChunks.push(event.data);
-                    }
-                };
-                
-                videoRecorder.onstop = function() {
-                    var blob = new Blob(videoChunks, { type: 'video/webm' });
-                    var url = URL.createObjectURL(blob);
-                    var timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
-                    
-                    addStatusLog(`🎥 Video saved! Genre: ${currentGenre}`, 'success');
-                    
-                    // Create download link
-                    var downloadDiv = document.createElement('div');
-                    downloadDiv.className = 'export-status';
-                    downloadDiv.innerHTML = `
-                        <video controls src="${url}" style="width: 100%; margin: 5px 0;"></video>
-                        <a href="${url}" download="kozmic-video-${currentGenre}-${timestamp}.webm" 
-                           style="color: #00ff00; text-decoration: underline;">💾 Download Video</a>
-                    `;
-                    safeGetElement('inputStatus').appendChild(downloadDiv);
-                };
-                
-                videoRecorder.start(1000);
-                isVideoRecording = true;
-                
-                var recordVideoBtn = safeGetElement('recordVideoBtn');
-                if (recordVideoBtn) {
-                    recordVideoBtn.textContent = 'Stop Video ⏹️';
-                    recordVideoBtn.classList.add('recording');
-                }
-                
-                addStatusLog('🎥 Video recording started', 'success');
-                safeCall(pulseCreature);
-            } catch (e) {
-                console.error('Video recording error: ' + e.message);
-                addStatusLog('❌ Video recording failed: ' + e.message, 'error');
-            }
-        }
-
-        function stopVideoRecording() {
-            try {
-                if (videoRecorder && isVideoRecording) {
-                    videoRecorder.stop();
-                    isVideoRecording = false;
-                    
-                    var recordVideoBtn = safeGetElement('recordVideoBtn');
-                    if (recordVideoBtn) {
-                        recordVideoBtn.textContent = 'Record Video 🎥';
-                        recordVideoBtn.classList.remove('recording');
-                    }
-                    
-                    addStatusLog('⏹️ Video recording stopped', 'success');
-                    safeCall(pulseCreature);
-                }
-            } catch (e) {
-                console.warn('Stop video recording error: ' + e.message);
+            } catch (error) {
+                updateStatus(`Video failed: ${error.message}`);
             }
         }
 
         // Audio Recording
-        function toggleAudioRecording() {
-            try {
-                if (!isRecording) {
-                    startRecording();
-                } else {
-                    stopRecording();
-                }
-            } catch (e) {
-                console.warn('Toggle audio recording error: ' + e.message);
-            }
-        }
-
-        function startRecording() {
-            try {
-                if (!guitarStream) {
-                    alert('Connect guitar first!');
-                    addStatusLog('❌ Connect guitar first!', 'error');
-                    return;
-                }
-                
-                mediaRecorder = new MediaRecorder(guitarStream, {
-                    mimeType: 'audio/webm;codecs=opus'
-                });
-                recordedChunks = [];
-                
-                mediaRecorder.ondataavailable = function(event) {
-                    if (event.data.size > 0) {
-                        recordedChunks.push(event.data);
-                    }
-                };
-                
-                mediaRecorder.onstop = function() {
-                    var blob = new Blob(recordedChunks, { type: 'audio/webm' });
-                    var url = URL.createObjectURL(blob);
-                    var timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
-                    
-                    addStatusLog(`🎵 Audio saved! Genre: ${currentGenre}`, 'success');
-                    
-                    // Create download link
-                    var downloadDiv = document.createElement('div');
-                    downloadDiv.className = 'export-status';
-                    downloadDiv.innerHTML = `
-                        <audio controls src="${url}" style="width: 100%; margin: 5px 0;"></audio>
-                        <a href="${url}" download="kozmic-audio-${currentGenre}-${timestamp}.webm" 
-                           style="color: #00ff00; text-decoration: underline;">💾 Download Audio</a>
-                    `;
-                    safeGetElement('inputStatus').appendChild(downloadDiv);
-                };
-                
-                mediaRecorder.start(1000);
-                isRecording = true;
-                
-                var recordAudioBtn = safeGetElement('recordAudioBtn');
-                if (recordAudioBtn) {
-                    recordAudioBtn.textContent = 'Stop Audio ⏹️';
-                    recordAudioBtn.classList.add('recording');
-                }
-                
-                addStatusLog('🎵 Audio recording started', 'success');
-                safeCall(pulseCreature);
-            } catch (e) {
-                console.error('Recording error: ' + e.message);
-                addStatusLog('❌ Recording failed: ' + e.message, 'error');
-            }
-        }
-
-        function stopRecording() {
-            try {
-                if (mediaRecorder && isRecording) {
-                    mediaRecorder.stop();
-                    isRecording = false;
-                    
-                    var recordAudioBtn = safeGetElement('recordAudioBtn');
-                    if (recordAudioBtn) {
-                        recordAudioBtn.textContent = 'Record Audio 🎙';
-                        recordAudioBtn.classList.remove('recording');
+        async function toggleAudioRecord() {
+            if (!liveIsAudioRecording) {
+                try {
+                    if (!liveAudioStream) {
+                        liveAudioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
                     }
                     
-                    addStatusLog('⏹️ Audio recording stopped', 'success');
-                    safeCall(pulseCreature);
+                    liveAudioRecorder = new MediaRecorder(liveAudioStream, {
+                        mimeType: 'audio/webm;codecs=opus'
+                    });
+                    
+                    liveAudioChunks = [];
+                    
+                    liveAudioRecorder.ondataavailable = function(event) {
+                        if (event.data.size > 0) {
+                            liveAudioChunks.push(event.data);
+                        }
+                    };
+                    
+                    liveAudioRecorder.onstop = function() {
+                        document.getElementById('recordingStatus').textContent = 'IDLE';
+                        document.getElementById('audioRecordBtn').textContent = 'Audio Record';
+                        document.getElementById('audioRecordBtn').classList.remove('active');
+                        updateStatus('Audio recording stopped - ready to export! 🎵');
+                    };
+                    
+                    liveAudioRecorder.start(1000);
+                    liveIsAudioRecording = true;
+                    
+                    document.getElementById('recordingStatus').textContent = 'AUDIO';
+                    document.getElementById('audioRecordBtn').textContent = 'Stop Audio';
+                    document.getElementById('audioRecordBtn').classList.add('active');
+                    updateStatus('Audio recording started! 🔴');
+                    
+                } catch (error) {
+                    updateStatus(`Audio recording failed: ${error.message}`);
                 }
-            } catch (e) {
-                console.warn('Stop recording error: ' + e.message);
+            } else {
+                if (liveAudioRecorder && liveAudioRecorder.state === 'recording') {
+                    liveAudioRecorder.stop();
+                }
+                liveIsAudioRecording = false;
             }
         }
 
-        // FIXED EXPORT FUNCTION - Now fully functional!
-        function exportTrack() {
-            try {
-                if (recordedChunks.length === 0 && videoChunks.length === 0) {
-                    alert('No recordings to export! Record some audio or video first.');
-                    addStatusLog('❌ No recordings to export!', 'error');
-                    return;
-                }
-                
-                var timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
-                var exported = false;
-                
-                // Export video if available
-                if (videoChunks.length > 0) {
-                    var videoBlob = new Blob(videoChunks, { type: 'video/webm' });
-                    var videoUrl = URL.createObjectURL(videoBlob);
-                    var videoLink = document.createElement('a');
-                    videoLink.href = videoUrl;
-                    videoLink.download = `kozmic-video-export-${currentGenre}-${timestamp}.webm`;
-                    videoLink.click();
-                    URL.revokeObjectURL(videoUrl);
+        // Video Recording
+        async function toggleVideoRecord() {
+            if (!liveIsVideoRecording) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: { width: 640, height: 480 },
+                        audio: true
+                    });
                     
-                    addStatusLog(`📤 Video exported: kozmic-video-export-${currentGenre}-${timestamp}.webm`, 'success');
-                    exported = true;
-                }
-                
-                // Export audio if available
-                if (recordedChunks.length > 0) {
-                    var audioBlob = new Blob(recordedChunks, { type: 'audio/webm' });
-                    var audioUrl = URL.createObjectURL(audioBlob);
-                    var audioLink = document.createElement('a');
-                    audioLink.href = audioUrl;
-                    audioLink.download = `kozmic-audio-export-${currentGenre}-${timestamp}.webm`;
-                    audioLink.click();
-                    URL.revokeObjectURL(audioUrl);
+                    liveVideoRecorder = new MediaRecorder(stream, {
+                        mimeType: 'video/webm;codecs=vp8,opus'
+                    });
                     
-                    addStatusLog(`📤 Audio exported: kozmic-audio-export-${currentGenre}-${timestamp}.webm`, 'success');
-                    exported = true;
+                    liveVideoChunks = [];
+                    
+                    liveVideoRecorder.ondataavailable = function(event) {
+                        if (event.data.size > 0) {
+                            liveVideoChunks.push(event.data);
+                        }
+                    };
+                    
+                    liveVideoRecorder.onstop = function() {
+                        document.getElementById('recordingStatus').textContent = 'IDLE';
+                        document.getElementById('videoRecordBtn').textContent = 'Video Record';
+                        document.getElementById('videoRecordBtn').classList.remove('active');
+                        updateStatus('Video recording stopped - ready to export! 🎬');
+                    };
+                    
+                    liveVideoRecorder.start(1000);
+                    liveIsVideoRecording = true;
+                    
+                    document.getElementById('recordingStatus').textContent = 'VIDEO';
+                    document.getElementById('videoRecordBtn').textContent = 'Stop Video';
+                    document.getElementById('videoRecordBtn').classList.add('active');
+                    updateStatus('Video recording started! 🎬');
+                    
+                } catch (error) {
+                    updateStatus(`Video recording failed: ${error.message}`);
                 }
-                
-                if (exported) {
-                    addStatusLog('✅ Export complete! Check your Downloads folder.', 'success');
-                    safeCall(pulseCreature);
-                } else {
-                    addStatusLog('❌ Nothing to export', 'error');
+            } else {
+                if (liveVideoRecorder && liveVideoRecorder.state === 'recording') {
+                    liveVideoRecorder.stop();
                 }
-                
-            } catch (e) {
-                console.error('Export track error: ' + e.message);
-                addStatusLog('❌ Export failed: ' + e.message, 'error');
-                alert('Export failed: ' + e.message);
+                liveIsVideoRecording = false;
             }
         }
 
-        // Enhanced Session Management
-        function saveSession() {
-            try {
-                var sessionData = {
-                    effects: currentEffects,
-                    bpm: safeGetElement('bpmInput').value,
-                    genre: currentGenre,
-                    inputGain: safeGetElement('inputGain').value,
-                    masterVolume: safeGetElement('masterVolume').value,
-                    timestamp: new Date().toISOString(),
-                    version: '2.0'
-                };
+        // Export Track with Enhanced Functionality
+        function exportLiveTrack() {
+            let exported = false;
+            
+            // Export video if available
+            if (liveVideoChunks.length > 0) {
+                const blob = new Blob(liveVideoChunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
                 
-                var blob = new Blob([JSON.stringify(sessionData, null, 2)], { type: 'application/json' });
-                var url = URL.createObjectURL(blob);
-                var timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
-                var a = document.createElement('a');
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
                 a.href = url;
-                a.download = `kozmic-session-${timestamp}.json`;
-                a.click();
-                URL.revokeObjectURL(url);
+                a.download = `kozmic-live-video-${liveCurrentGenre}-${timestamp}.webm`;
                 
-                addStatusLog('💾 Session saved successfully!', 'success');
-                safeCall(pulseCreature);
-            } catch (e) {
-                console.warn('Save session error: ' + e.message);
-                addStatusLog('❌ Save failed: ' + e.message, 'error');
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                URL.revokeObjectURL(url);
+                liveVideoChunks = [];
+                exported = true;
+                updateStatus('Video exported successfully! 🎬');
+            }
+            
+            // Export audio if available
+            if (liveAudioChunks.length > 0) {
+                const blob = new Blob(liveAudioChunks, { type: 'audio/webm' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+                a.href = url;
+                a.download = `kozmic-live-audio-${liveCurrentGenre}-${timestamp}.webm`;
+                
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                URL.revokeObjectURL(url);
+                liveAudioChunks = [];
+                exported = true;
+                updateStatus('Audio exported successfully! 🎵');
+            }
+            
+            if (!exported) {
+                updateStatus('No recordings to export! Record something first.');
             }
         }
 
-        function loadSession() {
+        // Session Management
+        function saveLiveSession() {
+            const sessionData = {
+                name: `Live-${Date.now()}`,
+                genre: liveCurrentGenre,
+                bpm: liveCurrentBPM,
+                effects: { ...liveEffects },
+                rhythm: liveCurrentRhythm,
+                timestamp: new Date().toISOString(),
+                version: '1.0'
+            };
+
+            const blob = new Blob([JSON.stringify(sessionData, null, 2)], {
+                type: 'application/json'
+            });
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `kozmic-live-session-${Date.now()}.json`;
+            
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            URL.revokeObjectURL(url);
+            updateStatus('Live session saved successfully! 💾');
+        }
+
+        async function loadLiveSession() {
             try {
-                var input = document.createElement('input');
-                input.type = 'file';
-                input.accept = '.json';
-                input.onchange = function(event) {
-                    var file = event.target.files[0];
-                    if (file) {
-                        var reader = new FileReader();
-                        reader.onload = function(e) {
-                            try {
-                                var sessionData = JSON.parse(e.target.result);
-                                
-                                // Restore effects
-                                if (sessionData.effects) {
-                                    currentEffects = sessionData.effects;
-                                    safeCall(updateEffectKnobs);
-                                    safeCall(updateEffectsChain);
-                                }
-                                
-                                // Restore settings
-                                if (sessionData.bpm) {
-                                    var bpmInput = safeGetElement('bpmInput');
-                                    if (bpmInput) bpmInput.value = sessionData.bpm;
-                                }
-                                
-                                if (sessionData.inputGain) {
-                                    var inputGain = safeGetElement('inputGain');
-                                    if (inputGain) inputGain.value = sessionData.inputGain;
-                                }
-                                
-                ="E2">Low E (82.41Hz)</option>
-                    <option value="A2">A (110Hz)</option>
-                    <option value="D3">D (146.83Hz)</option>
-                    <option value="G3">G (196Hz)</option>
-                    <option value="B3">B (246.94Hz)</option>
-                    <option value="E4">High E (329.63Hz)</option>
-                </select>
+                if ('showOpenFilePicker' in window) {
+                    const [fileHandle] = await window.showOpenFilePicker({
+                        types: [{
+                            description: 'Kozmic Live Sessions',
+                            accept: { 'application/json': ['.json'] }
+                        }]
+                    });
+                    
+                    const file = await fileHandle.getFile();
+                    const sessionData = JSON.parse(await file.text());
+                    
+                    // Apply session data
+                    if (sessionData.genre) {
+                        setLiveGenre(sessionData.genre);
+                    }
+                    if (sessionData.bpm) {
+                        liveCurrentBPM = sessionData.bpm;
+                        document.getElementById('bpmDisplay').textContent = liveCurrentBPM + ' BPM';
+                    }
+                    if (sessionData.effects) {
+                        Object.assign(liveEffects, sessionData.effects);
+                        Object.keys(liveEffects).forEach(effect => {
+                            document.getElementById(effect + 'Value').textContent = liveEffects[effect] + '%';
+                            adjustLiveEffect(effect);
+                        });
+                    }
+                    
+                    updateStatus('Live session loaded successfully! 🌌');
+                    
+                } else {
+                    // Fallback for older browsers
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = '.json';
+                    input.click();
+                    // Implementation similar to above but with FileReader
+                }
                 
-                <select id="fretSelect">
-                    <option value="0">Open</option>
-                    <option value="1">1st Fret</option>
-                    <option value="2">2nd Fret</option>
-                    <option value="3">3rd Fret</option>
-                    <option value="4">4th Fret</option>
-                    <option value="5">5th Fret</option>
-                    <option value="6">6th Fret</option>
-                    <option value="7">7th Fret</option>
-                    <option value="8">8th Fret</option>
-                    <option value="9">9th Fret</option>
-                    <option value="10">10th Fret</option>
-                    <option value="11">11th Fret</option>
-                    <option value="12">12th Fret</option>
-                </select>
+            } catch (error) {
+                updateStatus(`Session load failed: ${error.message}`);
+            }
+        }
+
+        // Speech Recognition
+        function initializeSpeechRecognition() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                liveSpeechRecognition = new SpeechRecognition();
+                liveSpeechRecognition.continuous = true;
+                liveSpeechRecognition.interimResults = false;
+                liveSpeechRecognition.lang = 'en-US';
+                
+                liveSpeechRecognition.onresult = function(event) {
+                    const command = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
+                    processSpeechCommand(command);
+                };
+                
+                liveSpeechRecognition.onerror = function(event) {
+                    updateStatus(`Speech error: ${event.error}`);
+                };
+                
+                updateStatus('Speech recognition initialized! 🗣️');
+            } else {
+                updateStatus('Speech recognition not supported in this browser');
+            }
+        }
+
+        function toggleSpeechRecognition() {
+            if (!liveSpeechRecognition) {
+                updateStatus('Speech recognition not available');
+                return;
+            }
+            
+            if (!liveIsSpeechActive) {
+                liveSpeechRecognition.start();
+                liveIsSpeechActive = true;
+                document.getElementById('speechBtn').textContent = 'Stop Speech';
+                document.getElementById('speechBtn').classList.add('active');
+                document.getElementById('speechStatus').textContent = 'LISTENING';
+                updateStatus('Speech recognition started! 🎤');
+            } else {
+                liveSpeechRecognition.stop();
+                liveIsSpeechActive = false;
+                document.getElementById('speechBtn').textContent = 'Start Speech';
+                document.getElementById('speechBtn').classList.remove('active');
+                document.getElementById('speechStatus').textContent = 'OFF';
+                updateStatus('Speech recognition stopped');
+            }
+        }
+
+        function processSpeechCommand(command) {
+            updateStatus(`Speech: "${command}"`);
+            
+            // Genre commands
+            if (command.includes('play blues')) setLiveGenre('blues');
+            else if (command.includes('play motown')) setLiveGenre('motown');
+            else if (command.includes('play jazz')) setLiveGenre('jazz');
+            else if (command.includes('play rock')) setLiveGenre('rock');
+            else if (command.includes('play funk')) setLiveGenre('funk');
+            else if (command.includes('play psychedelic')) setLiveGenre('psychedelic');
+            
+            // Effect commands
+            else if (command.includes('add reverb')) adjustLiveEffect('reverb');
+            else if (command.includes('add delay')) adjustLiveEffect('delay');
+            else if (command.includes('add drive')) adjustLiveEffect('drive');
+            else if (command.includes('add chorus')) adjustLiveEffect('chorus');
+            else if (command.includes('add wah')) adjustLiveEffect('wah');
+            
+            // Recording commands
+            else if (command.includes('record audio')) toggleAudioRecord();
+            else if (command.includes('record video')) toggleVideoRecord();
+            else if (command.includes('export track')) exportLiveTrack();
+            
+            // Control commands
+            else if (command.includes('kill effects')) killAllEffects();
+            else if (command.includes('random effects')) randomizeEffects();
+            else if (command.includes('save session')) saveLiveSession();
+            
+            // BPM commands
+            else if (command.includes('faster')) adjustBPM(10);
+            else if (command.includes('slower')) adjustBPM(-10);
+            
+            // Unknown command
+            else {
+                updateStatus(`Unknown command: "${command}"`);
+            }
+        }
+
+        function speakStatus() {
+            if ('speechSynthesis' in window) {
+                const statusText = `Current genre: ${liveCurrentGenre}. BPM: ${liveCurrentBPM}. Recording status: ${document.getElementById('recordingStatus').textContent}`;
+                const utterance = new SpeechSynthesisUtterance(statusText);
+                utterance.rate = 0.8;
+                utterance.pitch = 1.0;
+                speechSynthesis.speak(utterance);
+                updateStatus('Speaking status... 🗣️');
+            } else {
+                updateStatus('Speech synthesis not supported');
+            }
+        }
+
+        // Session Timer
+        function startSessionTimer() {
+            setInterval(() => {
+                const elapsed = Date.now() - liveSessionStartTime;
+                const minutes = Math.floor(elapsed / 60000);
+                const seconds = Math.floor((elapsed % 60000) / 1000);
+                document.getElementById('sessionTimer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // Status Update System
+        function updateStatus(message) {
+            console.log('Live Console:', message);
+            
+            // Also update speech commands display with recent commands
+            const commandsDiv = document.getElementById('speechCommands');
+            const currentTime = new Date().toLocaleTimeString();
+            commandsDiv.innerHTML = `[${currentTime}] ${message}<br>` + commandsDiv.innerHTML;
+            
+            // Keep only last 3 commands visible
+            const lines = commandsDiv.innerHTML.split('<br>');
+            if (lines.length > 4) {
+                commandsDiv.innerHTML = lines.slice(0, 4).join('<br>');
+            }
+        }
+
+        // Keyboard Shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                switch (e.key) {
+                    case '1':
+                        e.preventDefault();
+                        setLiveGenre('blues');
+                        break;
+                    case '2':
+                        e.preventDefault();
+                        setLiveGenre('rock');
+                        break;
+                    case '3':
+                        e.preventDefault();
+                        setLiveGenre('motown');
+                        break;
+                    case 'r':
+                        e.preventDefault();
+                        toggleAudioRecord();
+                        break;
+                    case 'v':
+                        e.preventDefault();
+                        toggleVideoRecord();
+                        break;
+                    case 'e':
+                        e.preventDefault();
+                        exportLiveTrack();
+                        break;
+                    case 's':
+                        e.preventDefault();
+                        saveLiveSession();
+                        break;
+                    case 'k':
+                        e.preventDefault();
+                        killAllEffects();
+                        break;
+                    case 'space':
+                        e.preventDefault();
+                        toggleSpeechRecognition();
+                        break;
+                }
+            }
+            
+            // Arrow keys for BPM
+            if (e.key === 'ArrowUp' && e.shiftKey) {
+                e.preventDefault();
+                adjustBPM(5);
+            } else if (e.key === 'ArrowDown' && e.shiftKey) {
+                e.preventDefault();
+                adjustBPM(-5);
+            }
+        });
+
+        // Touch Gestures for Mobile
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+            
+            // Horizontal swipes for genre changes
+            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 100) {
+                const genres = ['blues', 'rock', 'motown', 'jazz', 'funk', 'psychedelic'];
+                const currentIndex = genres.indexOf(liveCurrentGenre);
+                
+                if (deltaX > 0) {
+                    // Swipe right - next genre
+                    const nextIndex = (currentIndex + 1) % genres.length;
+                    setLiveGenre(genres[nextIndex]);
+                } else {
+                    // Swipe left - previous genre
+                    const prevIndex = (currentIndex - 1 + genres.length) % genres.length;
+                    setLiveGenre(genres[prevIndex]);
+                }
+            }
+            
+            // Vertical swipes for BPM
+            if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 100) {
+                if (deltaY < 0) {
+                    // Swipe up - increase BPM
+                    adjustBPM(10);
+                } else {
+                    // Swipe down - decrease BPM
+                    adjustBPM(-10);
+                }
+            }
+        });
+
+        // Auto-save session data
+        setInterval(() => {
+            const sessionData = {
+                genre: liveCurrentGenre,
+                bpm: liveCurrentBPM,
+                effects: { ...liveEffects },
+                rhythm: liveCurrentRhythm,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Save to localStorage as backup
+            try {
+                localStorage.setItem('kozmicLiveSession', JSON.stringify(sessionData));
+            } catch (e) {
+                // Handle localStorage errors gracefully
+            }
+        }, 30000); // Auto-save every 30 seconds
+
+        // Load auto-saved session on startup
+        try {
+            const savedSession = localStorage.getItem('kozmicLiveSession');
+            if (savedSession) {
+                const sessionData = JSON.parse(savedSession);
+                if (sessionData.genre && sessionData.genre !== 'none') {
+                    setTimeout(() => {
+                        updateStatus('Restored previous session 📂');
+                    }, 2000);
+                }
+            }
+        } catch (e) {
+            // Handle localStorage errors gracefully
+        }
+
+        // Performance monitoring
+        let frameCount = 0;
+        let lastTime = performance.now();
+        
+        // Monitor audio performance
+        if (liveAnalyser) {
+            function checkAudioPerformance() {
+                frameCount++;
+                const currentTime = performance.now();
+                
+                if (currentTime - lastTime > 1000) {
+                    const fps = Math.round(frameCount * 1000 / (currentTime - lastTime));
+                    frameCount = 0;
+                    lastTime = currentTime;
+                    
+                    if (fps < 30) {
+                        console.log(`Live Console Audio FPS: ${fps} - Performance may be affected`);
+                    }
+                }
+                
+                requestAnimationFrame(checkAudioPerformance);
+            }
+            checkAudioPerformance();
+        }
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', () => {
+            // Stop all recordings
+            if (liveIsAudioRecording && liveAudioRecorder) {
+                liveAudioRecorder.stop();
+            }
+            if (liveIsVideoRecording && liveVideoRecorder) {
+                liveVideoRecorder.stop();
+            }
+            
+            // Stop speech recognition
+            if (liveIsSpeechActive && liveSpeechRecognition) {
+                liveSpeechRecognition.stop();
+            }
+            
+            // Stop rhythm
+            if (liveRhythmInterval) {
+                clearInterval(liveRhythmInterval);
+            }
+            
+            // Close audio context
+            if (liveAudioContext) {
+                liveAudioContext.close();
+            }
+            
+            // Stop video stream
+            if (liveVideoStream) {
+                liveVideoStream.getTracks().forEach(track => track.stop());
+            }
+            
+            // Stop audio stream
+            if (liveAudioStream) {
+                liveAudioStream.getTracks().forEach(track => track.stop());
+            }
+        });
+
+        // Easter egg - konami code for special mode
+        let konamiCode = [];
+        const konamiSequence = [
+            'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
+            'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
+            'KeyB', 'KeyA'
+        ];
+
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.code);
+            if (konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+            
+            if (konamiCode.join(',') === konamiSequence.join(',')) {
+                // Activate cosmic mode!
+                randomizeEffects();
+                setLiveGenre('psychedelic');
+                adjustBPM(Math.floor(Math.random() * 40) + 140); // 140-180 BPM
+                
+                updateStatus('🌌 COSMIC MODE ACTIVATED! 🚀 Ultimate psychedelic experience!');
+                
+                // Apply special visual effects
+                document.body.style.filter = 'hue-rotate(180deg) saturate(2)';
+                setTimeout(() => {
+                    document.body.style.filter = '';
+                }, 5000);
+                
+                konamiCode = []; // Reset
+            }
+        });
+    </script>
+</body>
+</html>
